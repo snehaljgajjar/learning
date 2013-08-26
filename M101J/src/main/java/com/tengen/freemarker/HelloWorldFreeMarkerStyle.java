@@ -1,4 +1,4 @@
-package freemarker;
+package com.tengen.freemarker;
 
 import com.google.common.collect.Maps;
 import freemarker.template.Configuration;
