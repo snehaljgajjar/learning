@@ -1,6 +1,6 @@
 package com.tengen.MCDParser.utils;
 
-import com.tengen.MCDParser.ContainerParsers.QuicktimeMovieTrack;
+import com.tengen.MCDParser.ContainerParsers.QuicktimeContainerParser;
 import com.tengen.MCDParser.utils.MCDXmlTagName.McdType;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
@@ -39,7 +39,7 @@ public class MCDParserUtils {
                 case Ac3AudioAsset:
                     break;
                 case QuickTimeMovie:
-                    QuicktimeMovieTrack quicktimeMovieTrack = new QuicktimeMovieTrack(document);
+                    QuicktimeContainerParser quicktimeContainerParser = new QuicktimeContainerParser(document);
                     break;
                 case Invalid:
                     log.error("Error: Invalid MCD Document detected with root tag: " + document.getDocumentElement().getTagName() + ", not supported at this moment.");

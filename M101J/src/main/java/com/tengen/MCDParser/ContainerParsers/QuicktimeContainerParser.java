@@ -18,10 +18,10 @@ import java.util.Collection;
 /**
  * @author: pgajjar @date: 8/26/13 @time: 5:23 PM
  */
-public class QuicktimeMovieTrack {
-    private static Logger log = Logger.getLogger(QuicktimeMovieTrack.class.getName());
+public class QuicktimeContainerParser {
+    private static Logger log = Logger.getLogger(QuicktimeContainerParser.class.getName());
 
-    public QuicktimeMovieTrack(Document document) {
+    public QuicktimeContainerParser(Document document) {
         parseMovieDocument(document);
     }
 
@@ -74,7 +74,7 @@ public class QuicktimeMovieTrack {
             for (int i = 0; i < tracks.getLength(); i++) {
                 Node node = tracks.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    MZMCDMovieTrack movieTrack = QuicktimeMovieTrack.createMovieTrack(node);
+                    MZMCDMovieTrack movieTrack = QuicktimeContainerParser.createMovieTrack(node);
                     if (movieTrack != null) {
                         movieTracks.add(movieTrack);
                     }
