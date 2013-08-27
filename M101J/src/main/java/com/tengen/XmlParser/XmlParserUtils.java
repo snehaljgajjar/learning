@@ -2,6 +2,7 @@ package com.tengen.XmlParser;
 
 import com.google.common.collect.Lists;
 import com.tengen.XmlParser.XmlObjects.MZMCDMovie;
+import com.tengen.XmlParser.XmlObjects.MZMCDMovieTrack;
 import com.tengen.XmlParser.XmlObjects.MovieClock;
 import com.tengen.XmlParser.XmlObjects.MovieMetadata;
 import com.tengen.XmlParser.XmlObjects.MovieTrack;
@@ -62,7 +63,8 @@ public class XmlParserUtils {
                 } else if (node.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.METADATA_ATOMS.getTag())) {
                     Collection<MovieMetadata> movieMetadata = parseMetadataAtoms(node);
                 } else if (node.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.TRACKS_NAME.getTag())) {
-                    Collection<MovieTrack> movieTracks = parseTracks(node);
+                    Collection<MZMCDMovieTrack> movieTracks = parseTracks(node);
+                    log.debug("No. of Tracks detected: " + movieTracks.size());
                 }
             }
         }
@@ -70,16 +72,20 @@ public class XmlParserUtils {
         MZMCDMovie mcdMovie = new MZMCDMovie(document, movieClock, matrixIdentity);
     }
 
-    private static Collection<MovieTrack> parseTracks(Node track) {
+    private static Collection<MZMCDMovieTrack> parseTracks(Node track) {
         if (track != null && track.getChildNodes().getLength() > 0) {
-            Collection<MovieTrack> movieTracks = Lists.newArrayList();
+            Collection<MZMCDMovieTrack> movieTracks = Lists.newArrayList();
             NodeList tracks = track.getChildNodes();
             for (int i = 0; i < tracks.getLength(); i++) {
                 Node node = tracks.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    movieTracks.add(MovieTrack.createMovieTrack(node));
+                    MZMCDMovieTrack movieTrack = MovieTrack.createMovieTrack(node);
+                    if (movieTrack != null) {
+                        movieTracks.add(movieTrack);
+                    }
                 }
             }
+            return movieTracks;
         }
         return null;
     }
@@ -103,7 +109,7 @@ public class XmlParserUtils {
         return MovieClock.createMovieClock(clock);
     }
 
-    private static boolean parseMatrixIdentity(Node matrix) {
-        return matrix.getAttributes().getNamedItem(MZMCDXmlTagName.MovieTag.IDENTITY_ATTR_NAME.getTag()).getNodeValue().equalsIgnoreCase("true");
+    private static Boolean parseMatrixIdentity(Node matrix) {
+        return Boolean.getBoolean(matrix.getAttributes().getNamedItem(MZMCDXmlTagName.MovieTag.IDENTITY_ATTR_NAME.getTag()).getNodeValue());
     }
 }
