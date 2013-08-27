@@ -1,6 +1,6 @@
 package com.tengen.XmlParser.XmlObjects;
 
-import com.tengen.XmlParser.MZMCDXmlTagName;
+import com.tengen.XmlParser.MCDXmlTagName.MovieTag;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -8,6 +8,7 @@ import org.w3c.dom.NodeList;
 /**
  * @author: pgajjar @date: 8/26/13 @time: 11:10 PM
  */
+@SuppressWarnings("unused")
 public class MZMCDMovieTrackVideo extends MZMCDMovieTrack {
     private class Dimensions {
         private final Integer width;
@@ -69,74 +70,74 @@ public class MZMCDMovieTrackVideo extends MZMCDMovieTrack {
             Node childNode = children.item(i);
             NamedNodeMap attributes = childNode.getAttributes();
             if (childNode.getNodeType() == Node.ELEMENT_NODE) {
-                if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.TRACK_ID.getTag())) {
+                if (childNode.getNodeName().equalsIgnoreCase(MovieTag.TRACK_ID.getTag())) {
                     trackId = Integer.parseInt(childNode.getTextContent());
-                } else if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.LANGUAGE_TAG_NAME.getTag())) {
-                    trackLanguageNumeric = Integer.parseInt(attributes.getNamedItem(MZMCDXmlTagName.MovieTag.NUMERIC_ATTR_NAME.getTag()).getNodeValue());
+                } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.LANGUAGE_TAG_NAME.getTag())) {
+                    trackLanguageNumeric = Integer.parseInt(attributes.getNamedItem(MovieTag.NUMERIC_ATTR_NAME.getTag()).getNodeValue());
                     trackLanguage = childNode.getTextContent();
-                } else if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.EXTD_LANGUAGE_TAG_NAME.getTag())) {
+                } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.EXTD_LANGUAGE_TAG_NAME.getTag())) {
                     extendedLanguage = childNode.getTextContent();
-                } else if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.ALTERNATE_GROUP.getTag())) {
+                } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.ALTERNATE_GROUP.getTag())) {
                     alternateGroup = Integer.parseInt(childNode.getTextContent());
-                } else if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.MATRIX_NAME.getTag())) {
-                    matrixIdentity = Boolean.getBoolean(attributes.getNamedItem(MZMCDXmlTagName.MovieTag.IDENTITY_ATTR_NAME.getTag()).getNodeValue());
+                } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.MATRIX_NAME.getTag())) {
+                    matrixIdentity = Boolean.getBoolean(attributes.getNamedItem(MovieTag.IDENTITY_ATTR_NAME.getTag()).getNodeValue());
                     matrixClob = childNode.getTextContent();
-                } else if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.DATA_SIZE.getTag())) {
-                    dataSizeUnits = attributes.getNamedItem(MZMCDXmlTagName.MovieTag.UNITS_ATTR_NAME.getTag()).getNodeValue();
+                } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.DATA_SIZE.getTag())) {
+                    dataSizeUnits = attributes.getNamedItem(MovieTag.UNITS_ATTR_NAME.getTag()).getNodeValue();
                     dataSize = Long.parseLong(childNode.getTextContent());
-                } else if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.DURATION_NAME.getTag())) {
-                    trackDurationMilliSeconds = Integer.parseInt(attributes.getNamedItem(MZMCDXmlTagName.MovieTag.MILLISECONDS_ATTR_NAME.getTag()).getNodeValue());
-                    trackDurationTrack = Integer.parseInt(attributes.getNamedItem(MZMCDXmlTagName.MovieTag.TRACK_DURATION_ATTR_NAME.getTag()).getNodeValue());
-                    trackDurationUnits = attributes.getNamedItem(MZMCDXmlTagName.MovieTag.UNITS_ATTR_NAME.getTag()).getNodeValue();
+                } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.DURATION_NAME.getTag())) {
+                    trackDurationMilliSeconds = Integer.parseInt(attributes.getNamedItem(MovieTag.MILLISECONDS_ATTR_NAME.getTag()).getNodeValue());
+                    trackDurationTrack = Integer.parseInt(attributes.getNamedItem(MovieTag.TRACK_DURATION_ATTR_NAME.getTag()).getNodeValue());
+                    trackDurationUnits = attributes.getNamedItem(MovieTag.UNITS_ATTR_NAME.getTag()).getNodeValue();
                     trackDuration = Integer.parseInt(childNode.getTextContent());
-                } else if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.EDIT_LIST_NAME.getTag())) {
-                    editListCount = Integer.parseInt(attributes.getNamedItem(MZMCDXmlTagName.MovieTag.COUNT_ATTR_NAME.getTag()).getNodeValue());
-                    editListEmpties = Integer.parseInt(attributes.getNamedItem(MZMCDXmlTagName.MovieTag.EMPTIES_ATTR_NAME.getTag()).getNodeValue());
-                    editListNormalRate = Boolean.getBoolean(attributes.getNamedItem(MZMCDXmlTagName.MovieTag.NORMAL_RATE_ATTR_NAME.getTag()).getNodeValue());
-                } else if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.SAMPLE_DESC_COUNT.getTag())) {
+                } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.EDIT_LIST_NAME.getTag())) {
+                    editListCount = Integer.parseInt(attributes.getNamedItem(MovieTag.COUNT_ATTR_NAME.getTag()).getNodeValue());
+                    editListEmpties = Integer.parseInt(attributes.getNamedItem(MovieTag.EMPTIES_ATTR_NAME.getTag()).getNodeValue());
+                    editListNormalRate = Boolean.getBoolean(attributes.getNamedItem(MovieTag.NORMAL_RATE_ATTR_NAME.getTag()).getNodeValue());
+                } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.SAMPLE_DESC_COUNT.getTag())) {
                     sampleDescCount = Integer.parseInt(childNode.getTextContent());
-                } else if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.DATA_RATE_NAME.getTag())) {
-                    dataRateUnits = attributes.getNamedItem(MZMCDXmlTagName.MovieTag.UNITS_ATTR_NAME.getTag()).getNodeValue();
+                } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.DATA_RATE_NAME.getTag())) {
+                    dataRateUnits = attributes.getNamedItem(MovieTag.UNITS_ATTR_NAME.getTag()).getNodeValue();
                     dataRate = Float.parseFloat(childNode.getTextContent());
-                } else if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.CODEC_NAME.getTag())) {
-                    codecName = attributes.getNamedItem(MZMCDXmlTagName.MovieTag.NAME_ATTR_NAME.getTag()).getNodeValue();
-                    codecType = attributes.getNamedItem(MZMCDXmlTagName.MovieTag.TYPE_ATTR_NAME.getTag()).getNodeValue();
+                } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.CODEC_NAME.getTag())) {
+                    codecName = attributes.getNamedItem(MovieTag.NAME_ATTR_NAME.getTag()).getNodeValue();
+                    codecType = attributes.getNamedItem(MovieTag.TYPE_ATTR_NAME.getTag()).getNodeValue();
                     codec = childNode.getTextContent();
-                } else if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.DURATION_STATISTICS_NAME.getTag())) {
-                    durationStatMeanDuration = Float.parseFloat(attributes.getNamedItem(MZMCDXmlTagName.MovieTag.MEAN_DURATION_ATTR_NAME.getTag()).getNodeValue());
-                    durationStatTimeScale = Integer.parseInt(attributes.getNamedItem(MZMCDXmlTagName.MovieTag.TIME_SCALE_ATTR_NAME.getTag()).getNodeValue());
-                    durationStatTotalDuration = Integer.parseInt(attributes.getNamedItem(MZMCDXmlTagName.MovieTag.TOTAL_DURATION_ATTR_NAME.getTag()).getNodeValue());
-                    durationStatUniform = Boolean.parseBoolean(attributes.getNamedItem(MZMCDXmlTagName.MovieTag.UNIFORM_ATTR_NAME.getTag()).getNodeValue());
-                } else if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.DATA_RATE_STATISTICS_NAME.getTag())) {
-                    dataRateStatUnit = attributes.getNamedItem(MZMCDXmlTagName.MovieTag.UNITS_ATTR_NAME.getTag()).getNodeValue();
-                } else if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.ENCODED_DIMENSIONS_NAME.getTag())) {
+                } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.DURATION_STATISTICS_NAME.getTag())) {
+                    durationStatMeanDuration = Float.parseFloat(attributes.getNamedItem(MovieTag.MEAN_DURATION_ATTR_NAME.getTag()).getNodeValue());
+                    durationStatTimeScale = Integer.parseInt(attributes.getNamedItem(MovieTag.TIME_SCALE_ATTR_NAME.getTag()).getNodeValue());
+                    durationStatTotalDuration = Integer.parseInt(attributes.getNamedItem(MovieTag.TOTAL_DURATION_ATTR_NAME.getTag()).getNodeValue());
+                    durationStatUniform = Boolean.parseBoolean(attributes.getNamedItem(MovieTag.UNIFORM_ATTR_NAME.getTag()).getNodeValue());
+                } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.DATA_RATE_STATISTICS_NAME.getTag())) {
+                    dataRateStatUnit = attributes.getNamedItem(MovieTag.UNITS_ATTR_NAME.getTag()).getNodeValue();
+                } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.ENCODED_DIMENSIONS_NAME.getTag())) {
                     NodeList encodedDimChildren = childNode.getChildNodes();
                     Dimensions dimensions = getDimensions(encodedDimChildren);
                     if (dimensions != null) {
                         encodedDimWidth = dimensions.getWidth();
                         encodedDimHeight = dimensions.getHeight();
                     }
-                } else if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.DISPLAY_DIMENSIONS_NAME.getTag())) {
+                } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.DISPLAY_DIMENSIONS_NAME.getTag())) {
                     NodeList encodedDimChildren = childNode.getChildNodes();
                     Dimensions dimensions = getDimensions(encodedDimChildren);
                     if (dimensions != null) {
                         dispDimWidth = dimensions.getWidth();
                         dispDimHeight = dimensions.getHeight();
                     }
-                } else if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.TRACK_DIMENSIONS_NAME.getTag())) {
+                } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.TRACK_DIMENSIONS_NAME.getTag())) {
                     NodeList encodedDimChildren = childNode.getChildNodes();
                     Dimensions dimensions = getDimensions(encodedDimChildren);
                     if (dimensions != null) {
                         trackDimWidth = dimensions.getWidth();
                         trackDimHeight = dimensions.getHeight();
                     }
-                } else if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.FRAME_RATE_NAME.getTag())) {
+                } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.FRAME_RATE_NAME.getTag())) {
                     frameRate = Float.parseFloat(childNode.getTextContent());
-                } else if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.FIELD_DOMINANCE_NAME.getTag())) {
+                } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.FIELD_DOMINANCE_NAME.getTag())) {
                     fieldDominance = childNode.getTextContent();
-                } else if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.MAX_SAMPLE_SIZE_NAME.getTag())) {
+                } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.MAX_SAMPLE_SIZE_NAME.getTag())) {
                     maxSampleSize = Long.parseLong(childNode.getTextContent());
-                } else if (childNode.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.SAMPLE_DESC_NAME.getTag())) {
+                } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.SAMPLE_DESC_NAME.getTag())) {
                     populateSampleDescriptionParams(childNode, attributes);
                 }
             }
@@ -153,9 +154,9 @@ public class MZMCDMovieTrackVideo extends MZMCDMovieTrack {
             Integer height = null;
             for (int i = 0; i < dimChildren.getLength(); i++) {
                 Node node = dimChildren.item(i);
-                if (node.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.WIDTH_NAME.getTag())) {
+                if (node.getNodeName().equalsIgnoreCase(MovieTag.WIDTH_NAME.getTag())) {
                     width = Integer.parseInt(node.getTextContent());
-                } else if (node.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.HEIGHT_NAME.getTag())) {
+                } else if (node.getNodeName().equalsIgnoreCase(MovieTag.HEIGHT_NAME.getTag())) {
                     height = Integer.parseInt(node.getTextContent());
                 }
             }

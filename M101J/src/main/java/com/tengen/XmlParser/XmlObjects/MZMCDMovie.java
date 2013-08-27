@@ -1,6 +1,6 @@
 package com.tengen.XmlParser.XmlObjects;
 
-import com.tengen.XmlParser.MZMCDXmlTagName;
+import com.tengen.XmlParser.MCDXmlTagName.MovieTag;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 
@@ -22,8 +22,8 @@ public class MZMCDMovie {
 
     public MZMCDMovie(Document document, MovieClock movieClock, Boolean matrixIdentity) {
         NamedNodeMap attributes = document.getDocumentElement().getAttributes();
-        this.codecs = attributes.getNamedItem(MZMCDXmlTagName.MovieTag.CODECS_ATTR_NAME.getTag()).getNodeValue();
-        this.movieType = attributes.getNamedItem(MZMCDXmlTagName.MovieTag.TYPE_ATTR_NAME.getTag()).getNodeValue();
+        this.codecs = attributes.getNamedItem(MovieTag.CODECS_ATTR_NAME.getTag()).getNodeValue();
+        this.movieType = attributes.getNamedItem(MovieTag.TYPE_ATTR_NAME.getTag()).getNodeValue();
         this.posterTime = movieClock.getPosterTime();
         this.previewDuration = movieClock.getPreviewDuration();
         this.previewTime = movieClock.getPreviewTime();

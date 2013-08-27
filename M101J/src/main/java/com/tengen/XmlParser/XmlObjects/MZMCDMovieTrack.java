@@ -1,6 +1,6 @@
 package com.tengen.XmlParser.XmlObjects;
 
-import com.tengen.XmlParser.MZMCDXmlTagName;
+import com.tengen.XmlParser.MCDXmlTagName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -42,9 +42,9 @@ public class MZMCDMovieTrack {
 
     public MZMCDMovieTrack(Node track) {
         NamedNodeMap attributes = track.getAttributes();
-        trackEnabled = attributes.getNamedItem(MZMCDXmlTagName.MovieTag.ENABLED_ATTR_NAME.getTag()).getNodeValue().equalsIgnoreCase("true");
-        trackIndex = Integer.parseInt(attributes.getNamedItem(MZMCDXmlTagName.MovieTag.INDEX_ATTR_NAME.getTag()).getNodeValue());
-        trackType = attributes.getNamedItem(MZMCDXmlTagName.MovieTag.TYPE_ATTR_NAME.getTag()).getNodeValue();
+        trackEnabled = attributes.getNamedItem(MCDXmlTagName.MovieTag.ENABLED_ATTR_NAME.getTag()).getNodeValue().equalsIgnoreCase("true");
+        trackIndex = Integer.parseInt(attributes.getNamedItem(MCDXmlTagName.MovieTag.INDEX_ATTR_NAME.getTag()).getNodeValue());
+        trackType = attributes.getNamedItem(MCDXmlTagName.MovieTag.TYPE_ATTR_NAME.getTag()).getNodeValue();
         trackXmlTagType = track.getNodeName();
         // TODO: Following flags need to be overridden in MZMCDMovieTrackSound table.
         trackColocatedSamples = false;

@@ -1,6 +1,6 @@
 package com.tengen.XmlParser.XmlObjects;
 
-import com.tengen.XmlParser.MZMCDXmlTagName;
+import com.tengen.XmlParser.MCDXmlTagName.MovieTag;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -18,9 +18,9 @@ public class MovieMetadata {
 
     private MovieMetadata(Node movieMetadata) {
         NamedNodeMap attributes = movieMetadata.getAttributes();
-        format = attributes.getNamedItem(MZMCDXmlTagName.MovieTag.FORMAT_ATTR_NAME.getTag()).getNodeValue();
-        locale = attributes.getNamedItem(MZMCDXmlTagName.MovieTag.LOCALE_ATTR_NAME.getTag()).getNodeValue();
-        metadataType = attributes.getNamedItem(MZMCDXmlTagName.MovieTag.TYPE_ATTR_NAME.getTag()).getNodeValue();
+        format = attributes.getNamedItem(MovieTag.FORMAT_ATTR_NAME.getTag()).getNodeValue();
+        locale = attributes.getNamedItem(MovieTag.LOCALE_ATTR_NAME.getTag()).getNodeValue();
+        metadataType = attributes.getNamedItem(MovieTag.TYPE_ATTR_NAME.getTag()).getNodeValue();
         metadataValue = movieMetadata.getTextContent();
     }
 

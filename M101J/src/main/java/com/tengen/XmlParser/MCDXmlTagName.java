@@ -4,7 +4,7 @@ package com.tengen.XmlParser;
  * User: pgajjar Date: 8/26/13 Time: 11:19 AM
  */
 @SuppressWarnings("unused")
-public class MZMCDXmlTagName {
+public class MCDXmlTagName {
     public enum MovieTag {
         MOVIE_TAG_NAME("movie"),
         CLOCK_TAG_NAME("clock"),

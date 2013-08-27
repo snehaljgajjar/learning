@@ -1,6 +1,6 @@
 package com.tengen.XmlParser.XmlObjects;
 
-import com.tengen.XmlParser.MZMCDXmlTagName;
+import com.tengen.XmlParser.MCDXmlTagName.MovieTrackType;
 import org.w3c.dom.Node;
 
 /**
@@ -12,17 +12,17 @@ public class MovieTrack {
 //    }
 
     public static MZMCDMovieTrack createMovieTrack(Node node) {
-        if (node.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTrackType.VIDEO_TRACK.getTrackType())) {
+        if (node.getNodeName().equalsIgnoreCase(MovieTrackType.VIDEO_TRACK.getTrackType())) {
             return new MZMCDMovieTrackVideo(node);
-        } else if (node.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTrackType.SOUND_TRACK.getTrackType())) {
+        } else if (node.getNodeName().equalsIgnoreCase(MovieTrackType.SOUND_TRACK.getTrackType())) {
 
-        } else if (node.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTrackType.TIMECODE_TRACK.getTrackType())) {
+        } else if (node.getNodeName().equalsIgnoreCase(MovieTrackType.TIMECODE_TRACK.getTrackType())) {
 
-        } else if (node.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTrackType.CHAPTER_TRACK.getTrackType())) {
+        } else if (node.getNodeName().equalsIgnoreCase(MovieTrackType.CHAPTER_TRACK.getTrackType())) {
 
-        } else if (node.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTrackType.CHAPTER_IMAGE_TRACK.getTrackType())) {
+        } else if (node.getNodeName().equalsIgnoreCase(MovieTrackType.CHAPTER_IMAGE_TRACK.getTrackType())) {
 
-        } else if (node.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTrackType.UNKNOWN_TRACK.getTrackType())) {
+        } else if (node.getNodeName().equalsIgnoreCase(MovieTrackType.UNKNOWN_TRACK.getTrackType())) {
 
         }
         return null;

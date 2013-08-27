@@ -6,6 +6,7 @@ import com.tengen.XmlParser.XmlObjects.MZMCDMovieTrack;
 import com.tengen.XmlParser.XmlObjects.MovieClock;
 import com.tengen.XmlParser.XmlObjects.MovieMetadata;
 import com.tengen.XmlParser.XmlObjects.MovieTrack;
+import com.tengen.XmlParser.MCDXmlTagName.MovieTag;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -33,7 +34,7 @@ public class XmlParserUtils {
 //            document.getDocumentElement().normalize();
 
             String tagName = document.getDocumentElement().getTagName();
-            if (tagName.equalsIgnoreCase(MZMCDXmlTagName.MovieTag.MOVIE_TAG_NAME.getTag())) {
+            if (tagName.equalsIgnoreCase(MovieTag.MOVIE_TAG_NAME.getTag())) {
                 parseMovieDocument(document);
             }
 
@@ -55,14 +56,14 @@ public class XmlParserUtils {
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
-                if (node.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.CLOCK_TAG_NAME.getTag())) {
+                if (node.getNodeName().equalsIgnoreCase(MovieTag.CLOCK_TAG_NAME.getTag())) {
                     // Clock tag parsing
                     movieClock = parseClock(node);
-                } else if (node.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.MATRIX_NAME.getTag())) {
+                } else if (node.getNodeName().equalsIgnoreCase(MovieTag.MATRIX_NAME.getTag())) {
                     matrixIdentity = parseMatrixIdentity(node);
-                } else if (node.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.METADATA_ATOMS.getTag())) {
+                } else if (node.getNodeName().equalsIgnoreCase(MovieTag.METADATA_ATOMS.getTag())) {
                     Collection<MovieMetadata> movieMetadata = parseMetadataAtoms(node);
-                } else if (node.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.TRACKS_NAME.getTag())) {
+                } else if (node.getNodeName().equalsIgnoreCase(MovieTag.TRACKS_NAME.getTag())) {
                     Collection<MZMCDMovieTrack> movieTracks = parseTracks(node);
                     log.debug("No. of Tracks detected: " + movieTracks.size());
                 }
@@ -110,6 +111,6 @@ public class XmlParserUtils {
     }
 
     private static Boolean parseMatrixIdentity(Node matrix) {
-        return Boolean.getBoolean(matrix.getAttributes().getNamedItem(MZMCDXmlTagName.MovieTag.IDENTITY_ATTR_NAME.getTag()).getNodeValue());
+        return Boolean.getBoolean(matrix.getAttributes().getNamedItem(MovieTag.IDENTITY_ATTR_NAME.getTag()).getNodeValue());
     }
 }
