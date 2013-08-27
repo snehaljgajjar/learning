@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e9ed9acf-f6e9-45fc-8244-fc28c4066855" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/MCDParser.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/tengen/XmlParser/XmlParser.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/tengen/XmlParser/MCDXmlTagName.java" afterPath="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/utils/MCDXmlTagName.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/tengen/XmlParser/XmlObjects/MZMCDMovie.java" afterPath="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/EOObjects/MZMCDMovie.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/tengen/XmlParser/XmlObjects/MZMCDMovieTrack.java" afterPath="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/EOObjects/MZMCDMovieTrack.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/tengen/XmlParser/XmlObjects/MZMCDMovieTrackVideo.java" afterPath="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/EOObjects/MZMCDMovieTrackVideo.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/tengen/XmlParser/XmlObjects/MovieClock.java" afterPath="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/EOObjects/MovieClock.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/tengen/XmlParser/XmlObjects/MovieMetadata.java" afterPath="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/EOObjects/MovieMetadata.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/tengen/XmlParser/XmlObjects/MovieTrack.java" afterPath="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/ContainerParsers/QuicktimeMovieTrack.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/tengen/XmlParser/XmlParseException.java" afterPath="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/utils/MCDParseException.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/tengen/XmlParser/XmlParserUtils.java" afterPath="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/utils/MCDParserUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/log4j.properties" afterPath="$PROJECT_DIR$/src/main/java/log4j.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/utils/MCDXmlTagName.java" afterPath="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/utils/MCDXmlTagName.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/EOObjects/MZMCDMovieTrackVideo.java" afterPath="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/EOObjects/MZMCDMovieTrackVideo.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/pgajjar.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/pgajjar.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -199,7 +189,7 @@
     <file path="/HelloWorldMongoDBStyle.java" changelist="e9ed9acf-f6e9-45fc-8244-fc28c4066855" time="1376724240798" ignored="false" />
     <file path="/a.java" changelist="e9ed9acf-f6e9-45fc-8244-fc28c4066855" time="1376071688489" ignored="false" />
     <file path="/GsonMongoConverter.java" changelist="e9ed9acf-f6e9-45fc-8244-fc28c4066855" time="1375865526742" ignored="false" />
-    <file path="/fragment.java" changelist="e9ed9acf-f6e9-45fc-8244-fc28c4066855" time="1377563005589" ignored="false" />
+    <file path="/fragment.java" changelist="e9ed9acf-f6e9-45fc-8244-fc28c4066855" time="1377635152420" ignored="false" />
     <file path="/MongoDBUtils.java" changelist="e9ed9acf-f6e9-45fc-8244-fc28c4066855" time="1376466031157" ignored="false" />
     <file path="/MongoDBCursorIterator.java" changelist="e9ed9acf-f6e9-45fc-8244-fc28c4066855" time="1376032184214" ignored="false" />
     <file path="/MongoDBUtilsModule.java" changelist="e9ed9acf-f6e9-45fc-8244-fc28c4066855" time="1376034478614" ignored="false" />
@@ -223,9 +213,9 @@
     <file path="/MovieMetadata.java" changelist="e9ed9acf-f6e9-45fc-8244-fc28c4066855" time="1377590527848" ignored="false" />
     <file path="/MovieTrack.java" changelist="e9ed9acf-f6e9-45fc-8244-fc28c4066855" time="1377629106200" ignored="false" />
     <file path="/MZMCDMovieTrack.java" changelist="e9ed9acf-f6e9-45fc-8244-fc28c4066855" time="1377589771861" ignored="false" />
-    <file path="/MZMCDMovieTrackVideo.java" changelist="e9ed9acf-f6e9-45fc-8244-fc28c4066855" time="1377590630903" ignored="false" />
+    <file path="/MZMCDMovieTrackVideo.java" changelist="e9ed9acf-f6e9-45fc-8244-fc28c4066855" time="1377635073608" ignored="false" />
     <file path="/QuicktimeMovieTrack.java" changelist="e9ed9acf-f6e9-45fc-8244-fc28c4066855" time="1377629058942" ignored="false" />
-    <file path="/MCDXmlTagName.java" changelist="e9ed9acf-f6e9-45fc-8244-fc28c4066855" time="1377630977939" ignored="false" />
+    <file path="/MCDXmlTagName.java" changelist="e9ed9acf-f6e9-45fc-8244-fc28c4066855" time="1377633522352" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -280,38 +270,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/utils/MCDParserUtils.java" line="41" class="com.tengen.MCDParser.utils.MCDParserUtils" package="com.tengen.MCDParser.utils">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/ContainerParsers/QuicktimeMovieTrack.java" line="60" class="com.tengen.MCDParser.ContainerParsers.QuicktimeMovieTrack" package="com.tengen.MCDParser.ContainerParsers">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -332,10 +290,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QuicktimeMovieTrack.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="QuicktimeMovieTrack.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/ContainerParsers/QuicktimeMovieTrack.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="61" column="0" selection-start="2802" selection-end="2802" vertical-scroll-proportion="0.0">
+            <state line="61" column="0" selection-start="2802" selection-end="2802" vertical-scroll-proportion="0.29224652">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -346,10 +304,10 @@
       <file leaf-file-name="MZMCDMovieTrackVideo.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/EOObjects/MZMCDMovieTrackVideo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="36" selection-start="2562" selection-end="2562" vertical-scroll-proportion="-26.117647">
+            <state line="240" column="102" selection-start="15714" selection-end="15714" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#246#273#0" expanded="true" />
+                <element signature="e#278#305#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -393,7 +351,7 @@
       <file leaf-file-name="MCDXmlTagName.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/utils/MCDXmlTagName.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="106" selection-start="1442" selection-end="1442" vertical-scroll-proportion="0.0">
+            <state line="130" column="19" selection-start="4898" selection-end="4898" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#153#180#0" expanded="true" />
@@ -411,10 +369,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MCDParser.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MCDParser.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/MCDParser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="0" selection-start="533" selection-end="533" vertical-scroll-proportion="0.30417496">
+            <state line="20" column="239" selection-start="590" selection-end="590" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -440,7 +398,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/tengen/XmlParser/MCDXmlTagName.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/tengen/XmlParser/XmlObjects/MovieTrack.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/tengen/XmlParser/XmlObjects/QuicktimeMovieTrack.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/tengen/XmlParser/XmlParserUtils.java" />
@@ -454,8 +411,9 @@
         <option value="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/utils/MCDParseException.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/ContainerParsers/QuicktimeMovieTrack.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/utils/MCDParserUtils.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/utils/MCDXmlTagName.java" />
         <option value="$PROJECT_DIR$/src/main/java/log4j.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/utils/MCDXmlTagName.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/EOObjects/MZMCDMovieTrackVideo.java" />
       </list>
     </option>
   </component>
@@ -818,6 +776,40 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="EOObjects" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="M101J" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="M101J" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tengen" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MCDParser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="ContainerParsers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -928,7 +920,7 @@
       </extension>
       <option name="MAIN_CLASS_NAME" value="com.tengen.MCDParser.MCDParser" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="$USER_HOME$/Work/MCD.xml" />
+      <option name="PROGRAM_PARAMETERS" value="$USER_HOME$/Work/MCD-Quicktime-Merged.xml" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -1259,13 +1251,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar:///System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar!/org/w3c/dom/Node.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="25" selection-start="1103" selection-end="1103" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/EOObjects/MovieClock.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="13" selection-start="228" selection-end="228" vertical-scroll-proportion="-3.1764705">
@@ -1311,48 +1296,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/EOObjects/MZMCDMovieTrackVideo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="36" selection-start="2562" selection-end="2562" vertical-scroll-proportion="-26.117647">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#246#273#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar!/java/lang/String.class">
       <provider selected="true" editor-type-id="text-editor">
         <state line="204" column="0" selection-start="7977" selection-end="7977" vertical-scroll-proportion="0.87782806">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/utils/MCDXmlTagName.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="106" selection-start="1442" selection-end="1442" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#153#180#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/ContainerParsers/QuicktimeMovieTrack.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="0" selection-start="2802" selection-end="2802" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/utils/MCDParserUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="0" selection-start="1478" selection-end="1478" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1365,7 +1312,52 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/MCDParser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="533" selection-end="533" vertical-scroll-proportion="0.30417496">
+        <state line="20" column="239" selection-start="590" selection-end="590" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/utils/MCDXmlTagName.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="130" column="19" selection-start="4898" selection-end="4898" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#153#180#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar!/org/w3c/dom/Node.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="21" selection-start="888" selection-end="888" vertical-scroll-proportion="0.333002">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/utils/MCDParserUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="0" selection-start="1478" selection-end="1478" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/EOObjects/MZMCDMovieTrackVideo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="240" column="102" selection-start="15714" selection-end="15714" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#278#305#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tengen/MCDParser/ContainerParsers/QuicktimeMovieTrack.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="0" selection-start="2802" selection-end="2802" vertical-scroll-proportion="0.29224652">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

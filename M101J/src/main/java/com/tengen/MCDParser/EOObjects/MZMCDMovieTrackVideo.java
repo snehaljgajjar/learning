@@ -1,6 +1,7 @@
 package com.tengen.MCDParser.EOObjects;
 
 import com.tengen.MCDParser.utils.MCDXmlTagName.MovieTag;
+import org.apache.log4j.Logger;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -10,6 +11,8 @@ import org.w3c.dom.NodeList;
  */
 @SuppressWarnings("unused")
 public class MZMCDMovieTrackVideo extends MZMCDMovieTrack {
+    private static Logger log = Logger.getLogger(MZMCDMovieTrackVideo.class.getName());
+
     private class Dimensions {
         private final Integer width;
         private final Integer height;
@@ -55,7 +58,7 @@ public class MZMCDMovieTrackVideo extends MZMCDMovieTrack {
     private Integer sdAvcCompatibility;
     private Float sdAvcLevel;
     private String sdAvcNalPicParamSetECMFlag;
-    private String sdAvcNalPicParamSetPCSId;
+    private String sdAvcNalPicParamSetPPSId;
     private String sdAvcNalPicParamSetSPSId;
     private String sdUUID;
     private Long maxSampleSize;
@@ -138,13 +141,109 @@ public class MZMCDMovieTrackVideo extends MZMCDMovieTrack {
                 } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.MAX_SAMPLE_SIZE_NAME.getTag())) {
                     maxSampleSize = Long.parseLong(childNode.getTextContent());
                 } else if (childNode.getNodeName().equalsIgnoreCase(MovieTag.SAMPLE_DESC_NAME.getTag())) {
-                    populateSampleDescriptionParams(childNode, attributes);
+                    populateSampleDescriptionParams(childNode);
                 }
             }
         }
     }
 
-    private void populateSampleDescriptionParams(Node childNode, NamedNodeMap attributes) {
+    private void populateSampleDescriptionParams(Node sdNode) {
+        if (sdNode != null) {
+            NodeList sdChildren = sdNode.getChildNodes();
+            for (int i = 0; i < sdChildren.getLength(); i++) {
+                Node sdChild = sdChildren.item(i);
+                if (sdChild.getNodeType() == Node.ELEMENT_NODE) {
+                    if (sdChild.getNodeName().equalsIgnoreCase(MovieTag.COLR_NAME.getTag())) {
+                        NodeList colrChildren = sdChild.getChildNodes();
+                        if (colrChildren != null) {
+                            for (int j = 0; j < colrChildren.getLength(); j++) {
+                                Node colrChild = colrChildren.item(j);
+                                if (colrChild.getNodeType() == Node.ELEMENT_NODE) {
+                                    if (colrChild.getNodeName().equalsIgnoreCase(MovieTag.COLR_PARAM_TYPE_NAME.getTag())) {
+                                        sdColrParamType = colrChild.getTextContent();
+                                    } else if (colrChild.getNodeName().equalsIgnoreCase(MovieTag.MATRIX_INDEX_NAME.getTag())) {
+                                        sdColrMatrixIndex = Integer.parseInt(colrChild.getTextContent());
+                                    } else if (colrChild.getNodeName().equalsIgnoreCase(MovieTag.PRIMARIES_INDEX_NAME.getTag())) {
+                                        sdColrPrimIndex = Integer.parseInt(colrChild.getTextContent());
+                                    } else if (colrChild.getNodeName().equalsIgnoreCase(MovieTag.TRANSFER_FUNCTION_INDEX_NAME.getTag())) {
+                                        sdColrTransferFunctIndex = Integer.parseInt(colrChild.getTextContent());
+                                    }
+                                }
+                            }
+                        }
+                    } else if (sdChild.getNodeName().equalsIgnoreCase(MovieTag.FIEL_NAME.getTag())) {
+                        NodeList fielChildren = sdChild.getChildNodes();
+                        if (fielChildren != null) {
+                            for (int j = 0; j < fielChildren.getLength(); j++) {
+                                Node fielChild = fielChildren.item(j);
+                                if (fielChild.getNodeType() == Node.ELEMENT_NODE) {
+                                    if (fielChild.getNodeName().equalsIgnoreCase(MovieTag.FIELD_COUNT_NAME.getTag())) {
+                                        sdFielCount = Integer.parseInt(fielChild.getTextContent());
+                                    } else if (fielChild.getNodeName().equalsIgnoreCase(MovieTag.FIELD_ORDERING_NAME.getTag())) {
+                                        sdFielOrdering = Integer.parseInt(fielChild.getTextContent());
+                                    }
+                                }
+                            }
+                        }
+                    } else if (sdChild.getNodeName().equalsIgnoreCase(MovieTag.PASP_NAME.getTag())) {
+                        NodeList paspChildren = sdChild.getChildNodes();
+                        if (paspChildren != null) {
+                            for (int j = 0; j < paspChildren.getLength(); j++) {
+                                Node paspChild = paspChildren.item(j);
+                                if (paspChild.getNodeType() == Node.ELEMENT_NODE) {
+                                    if (paspChild.getNodeName().equalsIgnoreCase(MovieTag.HORIZONTAL_SPACING_NAME.getTag())) {
+                                        sdPaspHorizontalSpacing = Integer.parseInt(paspChild.getTextContent());
+                                    } else if (paspChild.getNodeName().equalsIgnoreCase(MovieTag.VERTICAL_SPACING_NAME.getTag())) {
+                                        sdPaspVerticalSpacing = Integer.parseInt(paspChild.getTextContent());
+                                    }
+                                }
+                            }
+                        }
+                    } else if (sdChild.getNodeName().equalsIgnoreCase(MovieTag.AVCC_NAME.getTag())) {
+                        NodeList avccChildren = sdChild.getChildNodes();
+                        if (avccChildren != null) {
+                            for (int j = 0; j < avccChildren.getLength(); j++) {
+                                Node avccChild = avccChildren.item(j);
+                                if (avccChild.getNodeType() == Node.ELEMENT_NODE) {
+                                    if (avccChild.getNodeName().equalsIgnoreCase(MovieTag.PROFILE_NAME.getTag())) {
+                                        sdAvcProfile = avccChild.getTextContent();
+                                    } else if (avccChild.getNodeName().equalsIgnoreCase(MovieTag.COMPATABILITY_NAME.getTag())) {
+                                        sdAvcCompatibility = Integer.parseInt(avccChild.getTextContent());
+                                    } else if (avccChild.getNodeName().equalsIgnoreCase(MovieTag.LEVEL_NAME.getTag())) {
+                                        sdAvcLevel = Float.parseFloat(avccChild.getTextContent());
+                                    } else if (avccChild.getNodeName().equalsIgnoreCase(MovieTag.NAL_UNITS_NAME.getTag())) {
+                                        populateSDAvcNalParams(avccChild);
+                                    }
+                                }
+                            }
+                        }
+                    } else if (sdChild.getNodeName().equalsIgnoreCase(MovieTag.UUID_NAME.getTag())) {
+                        sdUUID = sdChild.getTextContent();
+                    }
+                }
+            }
+        }
+    }
+
+    private void populateSDAvcNalParams(Node nalUnitsNode) {
+        NodeList nalUnitsChildren = nalUnitsNode.getChildNodes();
+        if (nalUnitsChildren != null) {
+            for (int i = 0; i < nalUnitsNode.getChildNodes().getLength(); i++) {
+                Node nalUnitsChild = nalUnitsChildren.item(i);
+                if (nalUnitsChild.getNodeType() == Node.ELEMENT_NODE) {
+                    NodeList ppsChildren = nalUnitsChild.getChildNodes();
+                    for (int j = 0; j < ppsChildren.getLength(); j++) {
+                        Node ppsChild = ppsChildren.item(j);
+                        if (ppsChild.getNodeType() == Node.ELEMENT_NODE) {
+                            NamedNodeMap ppsAttributes = ppsChild.getAttributes();
+                            sdAvcNalPicParamSetECMFlag = ppsAttributes.getNamedItem(MovieTag.ECM_FLAG_NAME.getTag()).getNodeValue();
+                            sdAvcNalPicParamSetPPSId = ppsAttributes.getNamedItem(MovieTag.PPS_ID_NAME.getTag()).getNodeValue();
+                            sdAvcNalPicParamSetSPSId = ppsAttributes.getNamedItem(MovieTag.SPS_ID_NAME.getTag()).getNodeValue();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private Dimensions getDimensions(NodeList dimChildren) {
@@ -269,8 +368,8 @@ public class MZMCDMovieTrackVideo extends MZMCDMovieTrack {
         return sdAvcNalPicParamSetECMFlag;
     }
 
-    public String getSdAvcNalPicParamSetPCSId() {
-        return sdAvcNalPicParamSetPCSId;
+    public String getSdAvcNalPicParamSetPPSId() {
+        return sdAvcNalPicParamSetPPSId;
     }
 
     public String getSdAvcNalPicParamSetSPSId() {

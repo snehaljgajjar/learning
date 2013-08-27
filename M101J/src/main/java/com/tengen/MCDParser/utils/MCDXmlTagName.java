@@ -110,7 +110,25 @@ public class MCDXmlTagName {
         FRAME_RATE_NAME("frame_rate"),
         FIELD_DOMINANCE_NAME("field_dominance"),
         MAX_SAMPLE_SIZE_NAME("maximum_sample_size"),
-        SAMPLE_DESC_NAME("sample_description");
+        SAMPLE_DESC_NAME("sample_description"), COLR_NAME("colr"),
+        COLR_PARAM_TYPE_NAME("color_parameter_type"),
+        MATRIX_INDEX_NAME("matrix_index"),
+        PRIMARIES_INDEX_NAME("primaries_index"),
+        TRANSFER_FUNCTION_INDEX_NAME("transfer_function_index"),
+        FIEL_NAME("fiel"),
+        FIELD_COUNT_NAME("field_count"),
+        FIELD_ORDERING_NAME("field_ordering"),
+        PASP_NAME("pasp"),
+        HORIZONTAL_SPACING_NAME("horizontal_spacing"),
+        VERTICAL_SPACING_NAME("vertical_spacing"), UUID_NAME("uuid"),
+        AVCC_NAME("avcC"),
+        PROFILE_NAME("profile"),
+        COMPATABILITY_NAME("compatability"),
+        LEVEL_NAME("level"),
+        NAL_UNITS_NAME("nal_units"),
+        ECM_FLAG_NAME("entropy_coding_mode_flag"),
+        PPS_ID_NAME("pic_parameter_set_id"),
+        SPS_ID_NAME("seq_parameter_set_id");
 
         private final String tagName;
 
