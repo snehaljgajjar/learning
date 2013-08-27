@@ -130,6 +130,7 @@
     <orderEntry type="library" name="Maven: org.freemarker:freemarker:2.3.20" level="project" />
     <orderEntry type="library" name="Maven: org.apache.xmlbeans:xmlbeans:2.5.0" level="project" />
     <orderEntry type="library" name="Maven: org.w3c:dom:2.3.0-jaxb-1.0.6" level="project" />
+    <orderEntry type="library" name="Maven: org.jdom:jdom:2.0.2" level="project" />
   </component>
 </module>
 

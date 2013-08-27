@@ -19,7 +19,8 @@ public class MZMCDXmlTagName {
         IDENTITY_ATTR_NAME("identity"),
         METADATA_ATOMS("metadata_atoms"),
         FORMAT_ATTR_NAME("format"),
-        LOCALE_ATTR_NAME("locale");
+        LOCALE_ATTR_NAME("locale"),
+        TRACKS_NAME("tracks");
 
         private final String tagName;
 
@@ -29,6 +30,25 @@ public class MZMCDXmlTagName {
 
         public String getTag() {
             return tagName;
+        }
+    }
+
+    public enum MovieTrackType {
+        VIDEO_TRACK("video"),
+        SOUND_TRACK("sound"),
+        TIMECODE_TRACK("timecode"),
+        CHAPTER_TRACK("chapter"),
+        CHAPTER_IMAGE_TRACK("chapter_image"),
+        UNKNOWN_TRACK("unknown");
+
+        private final String trackType;
+
+        MovieTrackType(String trackType) {
+            this.trackType = trackType;
+        }
+
+        public String getTrackType() {
+            return trackType;
         }
     }
 }

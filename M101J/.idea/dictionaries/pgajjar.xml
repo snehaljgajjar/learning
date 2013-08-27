@@ -12,6 +12,7 @@
       <w>hadoop</w>
       <w>hellospark</w>
       <w>jclouds</w>
+      <w>jdom</w>
       <w>lastname</w>
       <w>metadatas</w>
       <w>mockito</w>
@@ -21,6 +22,7 @@
       <w>pgajjar</w>
       <w>pradip</w>
       <w>println</w>
+      <w>timecode</w>
     </words>
   </dictionary>
 </component>

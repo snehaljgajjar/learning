@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.tengen.XmlParser.XmlObjects.MZMCDMovie;
 import com.tengen.XmlParser.XmlObjects.MovieClock;
 import com.tengen.XmlParser.XmlObjects.MovieMetadata;
+import com.tengen.XmlParser.XmlObjects.MovieTrack;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -29,7 +30,6 @@ public class XmlParserUtils {
             dbf.setIgnoringElementContentWhitespace(true);
             Document document = dbf.newDocumentBuilder().parse(new File(xmlFileName));
 //            document.getDocumentElement().normalize();
-            log.debug("\nCodecs: " + document.getDocumentElement().getAttributes().getNamedItem(MZMCDXmlTagName.MovieTag.CODECS_ATTR_NAME.getTag()));
 
             String tagName = document.getDocumentElement().getTagName();
             if (tagName.equalsIgnoreCase(MZMCDXmlTagName.MovieTag.MOVIE_TAG_NAME.getTag())) {
@@ -49,7 +49,6 @@ public class XmlParserUtils {
     private static void parseMovieDocument(Document document) {
         Boolean matrixIdentity = false;
         MovieClock movieClock = null;
-
         NodeList nodeList = document.getDocumentElement().getChildNodes();
 
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -62,11 +61,27 @@ public class XmlParserUtils {
                     matrixIdentity = parseMatrixIdentity(node);
                 } else if (node.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.METADATA_ATOMS.getTag())) {
                     Collection<MovieMetadata> movieMetadata = parseMetadataAtoms(node);
+                } else if (node.getNodeName().equalsIgnoreCase(MZMCDXmlTagName.MovieTag.TRACKS_NAME.getTag())) {
+                    Collection<MovieTrack> movieTracks = parseTracks(node);
                 }
             }
         }
 
         MZMCDMovie mcdMovie = new MZMCDMovie(document, movieClock, matrixIdentity);
+    }
+
+    private static Collection<MovieTrack> parseTracks(Node track) {
+        if (track != null && track.getChildNodes().getLength() > 0) {
+            Collection<MovieTrack> movieTracks = Lists.newArrayList();
+            NodeList tracks = track.getChildNodes();
+            for (int i = 0; i < tracks.getLength(); i++) {
+                Node node = tracks.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    movieTracks.add(MovieTrack.createMovieTrack(node));
+                }
+            }
+        }
+        return null;
     }
 
     private static Collection<MovieMetadata> parseMetadataAtoms(Node metadataAtoms) {
