@@ -1,10 +1,64 @@
-package com.tengen.XmlParser;
+package com.tengen.MCDParser.utils;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 
 /**
  * User: pgajjar Date: 8/26/13 Time: 11:19 AM
  */
 @SuppressWarnings("unused")
 public class MCDXmlTagName {
+    public enum McdType {
+        JpegAsset("image"),
+        IttSubtitleAsset("subtitle_description"),
+        SccCaptionAsset("scc_description"),
+        Ac3AudioAsset("container", "ac3-audio"),
+        QuickTimeMovie("movie"),
+        Mpeg2Movie("container"),
+        Invalid(null);
+
+        private final String rootTagName;
+        private final String rootAttrName;
+
+        McdType(String rootTagName) {
+            this(rootTagName, null);
+        }
+
+        McdType(String rootTagName, String rootAttrName) {
+            this.rootTagName = rootTagName;
+            this.rootAttrName = rootAttrName;
+        }
+
+        public String getRootTagName() {
+            return rootTagName;
+        }
+
+        public String getRootAttrName() {
+            return rootAttrName;
+        }
+
+        public static McdType getMcdType(Element documentElement) {
+            String rootTagName = documentElement.getTagName();
+            for (McdType type : McdType.values()) {
+                if (rootTagName.equalsIgnoreCase(type.getRootTagName())) {
+                    NamedNodeMap attributes = documentElement.getAttributes();
+                    if (attributes != null && attributes.getLength() > 0 && type.getRootAttrName() != null) {
+                        for (int i = 0; i < attributes.getLength(); i++) {
+                            String attributeName = attributes.item(i).getNodeValue();
+                            if (attributeName.contains(type.getRootAttrName())) {
+                                return type;
+                            }
+                        }
+                    } else {
+                        return type;
+                    }
+                }
+            }
+
+            return Invalid;
+        }
+    }
+
     public enum MovieTag {
         MOVIE_TAG_NAME("movie"),
         CLOCK_TAG_NAME("clock"),

@@ -1,6 +1,6 @@
-package com.tengen.XmlParser.XmlObjects;
+package com.tengen.MCDParser.EOObjects;
 
-import com.tengen.XmlParser.MCDXmlTagName;
+import com.tengen.MCDParser.utils.MCDXmlTagName;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 

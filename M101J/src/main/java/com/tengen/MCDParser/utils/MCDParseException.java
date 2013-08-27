@@ -1,10 +1,10 @@
-package com.tengen.XmlParser;
+package com.tengen.MCDParser.utils;
 
 /**
  * User: pgajjar Date: 8/23/13 Time: 12:08 PM
  */
 @SuppressWarnings("unused")
-public class XmlParseException extends Exception {
+public class MCDParseException extends Exception {
     public enum XmlParseErrorCode {
         XML_PARSING_ERROR,
         XML_FILE_IO_ERROR
@@ -14,7 +14,7 @@ public class XmlParseException extends Exception {
     private final String errorMsg;
     private final Exception actualException;
 
-    public XmlParseException(XmlParseErrorCode errorCode, String errorMsg, Exception actualException) {
+    public MCDParseException(XmlParseErrorCode errorCode, String errorMsg, Exception actualException) {
         this.errorCode = errorCode;
         this.errorMsg = errorMsg;
         this.actualException = actualException;

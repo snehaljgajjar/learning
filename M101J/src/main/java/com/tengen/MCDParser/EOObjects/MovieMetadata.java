@@ -1,6 +1,6 @@
-package com.tengen.XmlParser.XmlObjects;
+package com.tengen.MCDParser.EOObjects;
 
-import com.tengen.XmlParser.MCDXmlTagName.MovieTag;
+import com.tengen.MCDParser.utils.MCDXmlTagName.MovieTag;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
