@@ -19,6 +19,10 @@
             <id>Spark repository</id>
             <url>http://www.sparkjava.com/nexus/content/repositories/spark/</url>
         </repository>
+        <repository>
+            <id>ibiblio repository</id>
+            <url>http://www.ibiblio.org/maven</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -199,6 +203,20 @@
             <groupId>org.jdom</groupId>
             <artifactId>jdom</artifactId>
             <version>2.0.2</version>
+        </dependency>
+
+        <!-- Morphia - type-safe library to map Java Object to/from MongoDB -->
+        <dependency>
+            <groupId>com.google.code</groupId>
+            <artifactId>morphia</artifactId>
+            <version>0.91</version>
+        </dependency>
+
+        <!-- Apache Java Data Objects - 3.0.1 -->
+        <dependency>
+            <groupId>javax.jdo</groupId>
+            <artifactId>jdo-api</artifactId>
+            <version>3.0</version>
         </dependency>
 
     </dependencies>
