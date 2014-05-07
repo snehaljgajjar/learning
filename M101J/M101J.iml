@@ -139,6 +139,16 @@
     <orderEntry type="library" name="Maven: com.google.code:morphia:0.91" level="project" />
     <orderEntry type="library" name="Maven: javax.jdo:jdo-api:3.0" level="project" />
     <orderEntry type="library" name="Maven: javax.transaction:transaction-api:1.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: spy:spymemcached:2.8.1" level="project" />
+    <orderEntry type="library" name="Maven: com.googlecode.javacv:javacv:0.7" level="project" />
+    <orderEntry type="library" name="Maven: com.googlecode.javacpp:javacpp:0.7" level="project" />
+    <orderEntry type="library" name="Maven: com.netflix.zeno:netflix-zeno:2.6" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.2.2" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:2.4" level="project" />
+    <orderEntry type="library" name="Maven: com.netflix.hystrix:hystrix-core:1.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.findbugs:jsr305:2.0.0" level="project" />
   </component>
 </module>
 
