@@ -70,8 +70,12 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>16.0.1</version>
-            <scope>compile</scope>
+            <version>17.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava-gwt</artifactId>
+            <version>17.0</version>
         </dependency>
 
         <!-- Google Guice -->
@@ -151,6 +155,13 @@
             <version>2.1.0-incubating</version>
         </dependency>
 
+        <!-- Netflix EVCache -->
+        <dependency>
+            <groupId>com.netflix.evcache</groupId>
+            <artifactId>evcache-client</artifactId>
+            <version>1.0.5</version>
+        </dependency>
+
         <!-- RabbitMQ -->
         <dependency>
             <groupId>com.rabbitmq</groupId>
@@ -183,7 +194,56 @@
         <dependency>
             <groupId>com.netflix.astyanax</groupId>
             <artifactId>astyanax</artifactId>
-            <version>1.56.42</version>
+            <version>1.56.48</version>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.astyanax</groupId>
+            <artifactId>astyanax-core</artifactId>
+            <version>1.56.48</version>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.astyanax</groupId>
+            <artifactId>astyanax-thrift</artifactId>
+            <version>1.56.48</version>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.astyanax</groupId>
+            <artifactId>astyanax-cassandra</artifactId>
+            <version>1.56.48</version>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.astyanax</groupId>
+            <artifactId>astyanax-queue</artifactId>
+            <version>1.56.48</version>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.astyanax</groupId>
+            <artifactId>astyanax-entity-mapper</artifactId>
+            <version>1.56.48</version>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.astyanax</groupId>
+            <artifactId>astyanax-recipes</artifactId>
+            <version>1.56.48</version>
+        </dependency>
+
+        <!-- Netflix Exhibitor -->
+        <dependency>
+            <groupId>com.netflix.exhibitor</groupId>
+            <artifactId>exhibitor-core</artifactId>
+            <version>1.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.exhibitor</groupId>
+            <artifactId>exhibitor-standalone</artifactId>
+            <version>1.5.2</version>
+        </dependency>
+
+        <!-- Netflix Priam (https://github.com/Netflix/Priam) -->
+        <dependency>
+            <groupId>com.netflix.priam</groupId>
+            <artifactId>priam</artifactId>
+            <version>1.1.56</version>
         </dependency>
 
         <!-- Spark Java Web Application Framework (Tutorial: https://code.google.com/p/spark-java/) -->
