@@ -16,10 +16,6 @@
 
     <repositories>
         <repository>
-            <id>Spark repository</id>
-            <url>http://www.sparkjava.com/nexus/content/repositories/spark/</url>
-        </repository>
-        <repository>
             <id>ibiblio repository</id>
             <url>http://www.ibiblio.org/maven</url>
         </repository>
@@ -66,19 +62,20 @@
             <scope>compile</scope>
         </dependency>
 
-        <!-- Google Guava -->
+        <!-- Google Guava - All Common Rich set of Libraries-->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>17.0</version>
+            <version>18.0</version>
         </dependency>
+
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava-gwt</artifactId>
             <version>17.0</version>
         </dependency>
 
-        <!-- Google Guice -->
+        <!-- Google Guice - Dependency Injection -->
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
@@ -248,9 +245,9 @@
 
         <!-- Spark Java Web Application Framework (Tutorial: https://code.google.com/p/spark-java/) -->
         <dependency>
-            <groupId>spark</groupId>
-            <artifactId>spark</artifactId>
-            <version>0.9.9.4-SNAPSHOT</version>
+            <groupId>com.sparkjava</groupId>
+            <artifactId>spark-core</artifactId>
+            <version>1.1</version>
         </dependency>
 
         <!-- FreeMarker Java based Template Engine -->
@@ -341,5 +338,13 @@
             <version>1.5</version>
         </dependency>
 
+        <!--https://github.com/clojure/core.typed-->
+        <dependency>
+            <groupId>org.clojure</groupId>
+            <artifactId>core.typed</artifactId>
+            <version>0.2.72</version>
+            <!-- slim jar -->
+            <!-- <classifier>slim</classifier> -->
+        </dependency>
     </dependencies>
 </project>
