@@ -4,7 +4,10 @@ sourceCompatibility = 1.5
 version = '1.0'
 
 repositories {
-    mavenCentral()
+    // mavenCentral()
+    maven {
+        url "https://repo1.maven.org/maven2/"
+    }
     maven {
         url "http://maven2.javacv.googlecode.com/git/"
     }
@@ -67,7 +70,7 @@ dependencies {
     // Netflix Priam (https://github.com/Netflix/Priam)
     compile group: 'com.netflix.priam', name: 'priam', version: '3.0.4'
     // Spark Java Web Application Framework (Tutorial: https://code.google.com/p/spark-java/)
-    compile group: 'com.sparkjava', name: 'spark-core', version: '2.3'
+    compile group: 'com.sparkjava', name: 'spark-core', version: '1.1'
     // FreeMarker Java based Template Engine
     compile group: 'org.freemarker', name: 'freemarker', version: '2.3.23'
     // Apache XML Beans
