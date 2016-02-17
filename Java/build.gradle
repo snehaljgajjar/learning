@@ -4,7 +4,7 @@ sourceCompatibility = 1.5
 version = '1.0'
 
 repositories {
-    // mavenCentral()
+    mavenCentral()
     maven {
         url "https://repo1.maven.org/maven2/"
     }
@@ -14,95 +14,163 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+
+    /**
+     ******************************************************************************
+     * 1. In use Libraries
+     ******************************************************************************
+     */
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
 
     // Google Guava - All Common Rich set of Libraries
     compile group: 'com.google.guava', name: 'guava', version: '19.0'
+
     // Google Guice - Dependency Injection
     compile group: 'com.google.inject', name: 'guice', version: '3.0'
-    // MongoDB Java Driver
-    compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.2.1'
+
     // GSON: Java to Json conversion
     compile group: 'com.google.code.gson', name: 'gson', version: '2.6.1'
+
+    // MongoDB Java Driver
+    compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.2.1'
+
     // Google Mockito Object Mock Framework
     compile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
-    // Data Mapper For Jackson
-    compile group: 'org.codehaus.jackson', name: 'jackson-mapper-asl', version: '1.9.13'
-    // MongoDB Jackson Mapper
-    compile group: 'net.vz.mongodb.jackson' , name: 'mongo-jackson-mapper', version: '1.3'
+
     // TestNG Test Framework
     compile group: 'org.testng', name: 'testng', version: '6.9.10'
+
     // Apache Log4j
     compile group: 'log4j', name: 'log4j', version: '1.2.17'
+
     // Apache Log4j API
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.5'
-    // Apache Hadoop Core
-    compile group: 'org.apache.hadoop', name: 'hadoop-core', version: '1.2.1'
-    // Apache Hadoop Common
-    compile group: 'org.apache.hadoop', name: 'hadoop-common', version: '2.7.2'
-    // Zookeeper
-    compile group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.4.7'
-    // Apache HTTP Client
-    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.1'
-    // Apache Commons Lang
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
-    // Apache Curator Framework
-    compile group: 'org.apache.curator', name: 'curator-framework', version: '3.0.0'
-    // Apache Curator Recipes
-    compile group: 'org.apache.curator', name: 'curator-recipes', version: '3.0.0'
-    // Netflix EVCache
-    compile group: 'com.netflix.evcache', name: 'evcache-client', version: '4.3.0'
+
     // RabbitMQ Client
     compile group: 'com.rabbitmq', name: 'amqp-client', version: '3.6.0'
-    // Apache Cassandra
-    compile group: 'org.apache.cassandra', name: 'cassandra-all', version: '3.2.1'
-    // DataStax Java Driver For Apache Cassandra Core
-    compile group: 'com.datastax.cassandra', name: 'cassandra-driver-core', version: '3.0.0'
-    // AWS SDK For Java
-    compile group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.10.52'
-    // Netflix Governator
-    compile group: 'com.netflix.governator', name: 'governator', version: '1.12.7'
-    // Netflix Astyanax
-    compile group: 'com.netflix.astyanax', name: 'astyanax', version: '3.9.0'
-    compile group: 'com.netflix.astyanax', name: 'astyanax-cassandra', version: '3.9.0'
-    // Netflix Exhibitor
-    compile group: 'com.netflix.exhibitor', name: 'exhibitor-core', version: '1.5.6'
-    // Netflix Priam (https://github.com/Netflix/Priam)
-    compile group: 'com.netflix.priam', name: 'priam', version: '3.0.4'
+
     // Spark Java Web Application Framework (Tutorial: https://code.google.com/p/spark-java/)
     compile group: 'com.sparkjava', name: 'spark-core', version: '1.1'
+
     // FreeMarker Java based Template Engine
     compile group: 'org.freemarker', name: 'freemarker', version: '2.3.23'
-    // Apache XML Beans
-    compile group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '2.6.0'
-    // W3C DOM - for XML parsing
-    compile group: 'org.w3c', name: 'dom', version: '2.3.0-jaxb-1.0.6'
+
     // JDOM for XML Parsing
     compile group: 'org.jdom', name: 'jdom', version: '2.0.2'
-    // Morphia - Java Object Document Mapper for MongoDB
-    compile group: 'org.mongodb.morphia', name: 'morphia', version: '1.1.1'
-    // Simple Logging Facade for Java (SLF4J)
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.16'
-    // A client library for memcached.
-    compile group: 'net.spy', name: 'spymemcached', version: '2.12.0'
-    // JavaCV, OpenCV and FFMpeg
-    compile group: 'org.bytedeco', name: 'javacv', version: '1.1'
-    compile group: 'org.bytedeco.javacpp-presets', name: 'opencv', version: '3.0.0-1.1'
-    compile group: 'org.bytedeco.javacpp-presets', name: 'ffmpeg', version: '2.8.1-1.1'
-    // Google ProtoBuf
-    compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.0.0-beta-2'
-    // Netflix Utils
-    compile group: 'com.netflix.netflix-commons', name: 'netflix-commons-util', version: '0.3.0'
-    // Netflix jersey Guice
-    compile group: 'com.netflix.netflix-commons', name: 'netflix-jersey-guice', version: '0.3.0'
-    // Netflix Zeno - https://github.com/Netflix/zeno
-    compile group: 'com.netflix.zeno', name: 'netflix-zeno', version: '2.6'
-    // Netflix Hystrix - https://github.com/Netflix/Hystrix
-    compile group: 'com.netflix.hystrix', name: 'hystrix-core', version: '1.4.23'
-    // Apache Tika (http://projects.apache.org/indexes/language.html#Java)
-    compile group: 'org.apache.tika', name: 'tika-core', version: '1.11'
-    compile group: 'org.apache.tika', name: 'tika-parsers', version: '1.11'
-    // Core.typed - An optional type system for Clojure
-    compile group: 'org.clojure', name: 'core.typed', version: '0.3.22'
 
+    // Apache HTTP Client
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.1'
+
+    // Simple Logging Facade for Java (SLF4J)
+    // compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.16'
+
+
+    /**
+     ******************************************************************************
+     * 2. Need these libraries for future learning reference
+     ******************************************************************************
+     */
+
+    // Zookeeper
+    // compile group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.4.7'
+
+    // Google ProtoBuf
+    // compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.0.0-beta-2'
+
+    // AWS SDK For Java
+    // compile group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.10.52'
+
+    // JavaCV, OpenCV and FFMpeg
+    // compile group: 'org.bytedeco', name: 'javacv', version: '1.1'
+    // compile group: 'org.bytedeco.javacpp-presets', name: 'opencv', version: '3.0.0-1.1'
+    // compile group: 'org.bytedeco.javacpp-presets', name: 'ffmpeg', version: '2.8.1-1.1'
+
+    // Morphia - Java Object Document Mapper for MongoDB
+    // compile group: 'org.mongodb.morphia', name: 'morphia', version: '1.1.1'
+
+    // A client library for memcached.
+    // compile group: 'net.spy', name: 'spymemcached', version: '2.12.0'
+
+    // Data Mapper For Jackson
+    // compile group: 'org.codehaus.jackson', name: 'jackson-mapper-asl', version: '1.9.13'
+
+    // MongoDB Jackson Mapper
+    // compile group: 'net.vz.mongodb.jackson' , name: 'mongo-jackson-mapper', version: '1.3'
+
+    // DataStax Java Driver For Apache Cassandra Core
+    // compile group: 'com.datastax.cassandra', name: 'cassandra-driver-core', version: '3.0.0'
+
+    // W3C DOM - for XML parsing
+    // compile group: 'org.w3c', name: 'dom', version: '2.3.0-jaxb-1.0.6'
+
+    // Core.typed - An optional type system for Clojure
+    // compile group: 'org.clojure', name: 'core.typed', version: '0.3.22'
+
+
+    /**
+     ******************************************************************************
+     * 2.1. Apache Libraries
+     ******************************************************************************
+     */
+
+    // Apache Hadoop Core
+    // compile group: 'org.apache.hadoop', name: 'hadoop-core', version: '1.2.1'
+
+    // Apache Hadoop Common
+    // compile group: 'org.apache.hadoop', name: 'hadoop-common', version: '2.7.2'
+
+    // Apache Commons Lang
+    // compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
+
+    // Apache Curator Framework
+    // compile group: 'org.apache.curator', name: 'curator-framework', version: '3.0.0'
+
+    // Apache Curator Recipes
+    // compile group: 'org.apache.curator', name: 'curator-recipes', version: '3.0.0'
+
+    // Apache Cassandra
+    // compile group: 'org.apache.cassandra', name: 'cassandra-all', version: '3.2.1'
+
+    // Apache XML Beans
+    // compile group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '2.6.0'
+
+    // Apache Tika (http://projects.apache.org/indexes/language.html#Java)
+    // compile group: 'org.apache.tika', name: 'tika-core', version: '1.11'
+    // compile group: 'org.apache.tika', name: 'tika-parsers', version: '1.11'
+
+
+    /**
+     ******************************************************************************
+     * 2.2. Netflix Libraries
+     ******************************************************************************
+     */
+
+    // Netflix EVCache
+    // compile group: 'com.netflix.evcache', name: 'evcache-client', version: '4.3.0'
+
+    // Netflix Governator
+    // compile group: 'com.netflix.governator', name: 'governator', version: '1.12.7'
+
+    // Netflix Astyanax
+    // compile group: 'com.netflix.astyanax', name: 'astyanax', version: '3.9.0'
+    // compile group: 'com.netflix.astyanax', name: 'astyanax-cassandra', version: '3.9.0'
+
+    // Netflix Exhibitor
+    // compile group: 'com.netflix.exhibitor', name: 'exhibitor-core', version: '1.5.6'
+
+    // Netflix Priam (https://github.com/Netflix/Priam)
+    // compile group: 'com.netflix.priam', name: 'priam', version: '3.0.4'
+
+    // Netflix Utils
+    // compile group: 'com.netflix.netflix-commons', name: 'netflix-commons-util', version: '0.3.0'
+
+    // Netflix jersey Guice
+    // compile group: 'com.netflix.netflix-commons', name: 'netflix-jersey-guice', version: '0.3.0'
+
+    // Netflix Zeno - https://github.com/Netflix/zeno
+    // compile group: 'com.netflix.zeno', name: 'netflix-zeno', version: '2.6'
+
+    // Netflix Hystrix - https://github.com/Netflix/Hystrix
+    // compile group: 'com.netflix.hystrix', name: 'hystrix-core', version: '1.4.23'
 }
