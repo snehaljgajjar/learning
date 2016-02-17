@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: core.typed.rt-0.3.22">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.clojure/core.typed.rt/0.3.22/16deb5706dd27ec73284975893ccb6f7dbd85d64/core.typed.rt-0.3.22.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.clojure/core.typed.rt/0.3.22/322d121d431bb612d51ea2c4a197d7eb252603fd/core.typed.rt-0.3.22-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

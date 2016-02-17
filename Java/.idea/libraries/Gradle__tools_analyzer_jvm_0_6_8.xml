@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: tools.analyzer.jvm-0.6.8">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.clojure/tools.analyzer.jvm/0.6.8/4b3391824ad7bfd3659a49ae77ef91a0f4fe4940/tools.analyzer.jvm-0.6.8.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.clojure/tools.analyzer.jvm/0.6.8/638549d51a2689fc9bd817884cbf04ce7e2d2499/tools.analyzer.jvm-0.6.8-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

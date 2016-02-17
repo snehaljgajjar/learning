@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: astyanax-thrift-3.9.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.netflix.astyanax/astyanax-thrift/3.9.0/d21098c142f75c3e938a4870786910fad9dccc0c/astyanax-thrift-3.9.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.netflix.astyanax/astyanax-thrift/3.9.0/5bfd965188defa036d1a63fef24137b12131f10/astyanax-thrift-3.9.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
