@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.clojure:core.contracts:0.0.4">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.clojure/core.contracts/0.0.4/5230ff7a1cd28a707975a77ed92bbf5e34daf464/core.contracts-0.0.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.clojure/core.contracts/0.0.4/92046a67d0fcb7625c4d134a3dd698a67bdc09e3/core.contracts-0.0.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

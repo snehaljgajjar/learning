@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.netflix.astyanax:astyanax:3.9.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.netflix.astyanax/astyanax/3.9.0/efb1dda729f3ee198788dd488eb5f2b42a028f0f/astyanax-3.9.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.netflix.astyanax/astyanax/3.9.0/86b5880e9ccc7777e347ad72112608e63691a361/astyanax-3.9.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.netflix.netflix-commons:netflix-jersey-guice:0.3.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.netflix.netflix-commons/netflix-jersey-guice/0.3.0/ed978cb94a1c1923419e1385313e69405425ee75/netflix-jersey-guice-0.3.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.netflix.netflix-commons/netflix-jersey-guice/0.3.0/f4a4fa1aad304748ebcdc2e78cc6fe91efb9b9af/netflix-jersey-guice-0.3.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
