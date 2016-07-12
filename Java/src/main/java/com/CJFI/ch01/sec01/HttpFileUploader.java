@@ -60,7 +60,7 @@ public class HttpFileUploader {
         return resp;
     }
 
-    public static boolean uploadFile(String url, String fileKey, File file) throws Exception
+    public static boolean uploadFile(String url, String fileKey, String filePath) throws Exception
     {
         HttpClient mHttpClient = HttpClientBuilder.create().build();
 
@@ -69,17 +69,17 @@ public class HttpFileUploader {
 
         try {
 
-            System.out.println("strart upload file");
+            System.out.println("start upload file");
 
             HttpPost httppost = new HttpPost(url);
 
             MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-            multipartEntity.addPart(fileKey, new FileBody(file));
+            multipartEntity.addPart(fileKey, new FileBody(new File(filePath)));
             httppost.setEntity(multipartEntity);
 
             httppost.setParams(params);
 
-            System.out.println("strart...");
+            System.out.println("start...");
 
             HttpResponse httpResponse = mHttpClient.execute(httppost);
 
@@ -119,9 +119,13 @@ public class HttpFileUploader {
         }
     }
 
-    public static void main(String[] args) {
+
+
+    public static void main(String[] args) throws Exception {
         final String UPLOAD_URL = "http://localhost";
         HttpFileUploader uploader = new HttpFileUploader(UPLOAD_URL, "attachment_field", "/Users/pgajjar/Data/Movies/PK.mp4");
         System.out.println(uploader.upload());
+
+        uploader.uploadFile(UPLOAD_URL, "attachment_field", "/Users/pgajjar/Data/Movies/PK.mp4");
     }
 }
