@@ -1,131 +1,158 @@
 package com.CJFI.ch01.sec01;
 
-import org.apache.commons.httpclient.util.HttpURLConnection;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreProtocolPNames;
-import org.apache.http.params.HttpParams;
-import org.apache.http.util.EntityUtils;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.FileEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.protocol.HTTP;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.net.URI;
 
 /**
- * @author: pgajjar
- * @since: 7/11/16
+ * @author  : pgajjar
+ * @since   : 7/13/16
  */
 public class HttpFileUploader {
-    private final HttpClient httpclient = HttpClientBuilder.create().build();
-    private final HttpPost httppost;
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(HttpFileUploader.class.getName());
+    private final CloseableHttpClient httpClient;
+    private final static String HTTP_HOST_URL = "http://localhost/uploads/";
 
-    public HttpFileUploader(String uploadUrl, String fileKey, String filePath) {
-        httppost = new HttpPost(uploadUrl);
-        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-        try {
-            reqEntity.addPart("user", new StringBody("pgajjar"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+    public static class HttpMkCol extends HttpEntityEnclosingRequestBase {
+        public static final String METHOD_NAME = "MKCOL";
+
+        public HttpMkCol(String url) {
+            this(URI.create(url));
         }
-        FileBody bin = new FileBody(new File(filePath));
-        reqEntity.addPart(fileKey, bin);
 
-        httppost.setEntity(reqEntity);
+        public HttpMkCol(URI url) {
+            this.setURI(url);
+            this.setHeader("Content-Type", "text/xml" + "; charset=" + "UTF-8".toLowerCase());
+        }
+
+        @Override
+        public String getMethod() {
+            return METHOD_NAME;
+        }
     }
 
-    public String upload() {
-        String resp = null;
-        System.out.println("executing request " + httppost.getRequestLine());
-        try {
-            HttpResponse response = httpclient.execute(httppost);
-            HttpEntity resEntity = response.getEntity();
-            if (resEntity != null) {
-                String page = EntityUtils.toString(resEntity);
-                System.out.println("PAGE :" + page);
+    public static class HttpPropFind extends HttpEntityEnclosingRequestBase {
+        public static final String METHOD_NAME = "PROPFIND";
+
+        public HttpPropFind(String url) {
+            this(URI.create(url));
+        }
+
+        public HttpPropFind(URI url) {
+            this.setURI(url);
+            this.setHeader("Content-Type", "text/xml" + "; charset=" + "UTF-8".toLowerCase());
+        }
+
+        @Override
+        public String getMethod() {
+            return METHOD_NAME;
+        }
+    }
+
+    private HttpFileUploader() {
+        httpClient = HttpClients.createDefault();
+    }
+
+    @Nonnull
+    public static HttpFileUploader newInstance() {
+        return new HttpFileUploader();
+    }
+
+    private boolean dirExists(@Nonnull final String dirName) throws IOException {
+        return false;
+//        HttpPropFind propFind = new HttpPropFind(HTTP_HOST_URL + dirName);
+//        HttpResponse response = httpClient.execute(propFind);
+//        int statusCode = response.getStatusLine().getStatusCode();
+//        propFind.completed();
+//        return statusCode == HttpStatus.SC_MULTI_STATUS;
+    }
+
+    /** Create the given directory via WebDAV, if needed, under given URL */
+    private boolean mkdir(@Nonnull final String dirName) throws IOException {
+        boolean result = true;
+        final String dirToCreate = HTTP_HOST_URL + dirName;
+        if (!dirExists(dirName)) {
+            HttpMkCol mkcol = new HttpMkCol(dirToCreate);
+            HttpResponse response = httpClient.execute(mkcol);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if ((statusCode != HttpStatus.SC_CREATED) && (statusCode != HttpStatus.SC_OK)) {
+                log.info("Failed creating directory: " + dirName + "HTTP " + statusCode + ", Full Response: " + response);
+                result = false;
             }
-            System.out.println(response);
-            resp = response.toString();
+            mkcol.completed();
+        } else {
+            log.info("Directory: " + dirToCreate + " already exists.");
+        }
+
+        return result;
+    }
+
+    private boolean mkdirRecursive(@Nonnull final String dirName) throws IOException {
+        final String[] dirs = dirName.split(File.separator);
+        StringBuilder dirToCreate = new StringBuilder();
+        for (String dir : dirs) {
+            dirToCreate.append(dir + File.separator);
+            if (!mkdir(dirToCreate.toString())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean upload(String localFilePath, String dirName, String targetFileName) throws IOException {
+        try {
+            boolean result = true;
+
+            if (!mkdir(dirName)) {
+                log.info("Failed creating directory: " + dirName + " on " + HTTP_HOST_URL);
+                return false;
+            }
+
+            final String targetHttpHostFilePath = HTTP_HOST_URL + dirName + File.separator + targetFileName;
+            log.info("Received an HTTP Put request for Local File: " + localFilePath + ", to Target: " + targetHttpHostFilePath);
+            final HttpPut httpPut = new HttpPut(targetHttpHostFilePath);
+            // add the 100 continue directive
+            httpPut.addHeader(HTTP.EXPECT_DIRECTIVE, HTTP.EXPECT_CONTINUE);
+            FileEntity fileEntity = new FileEntity(new File(localFilePath), ContentType.APPLICATION_OCTET_STREAM);
+            httpPut.setEntity(fileEntity);
+            HttpResponse response = httpClient.execute(httpPut);
+            int statusCode = response.getStatusLine().getStatusCode();
+            log.info("Received HTTP " + statusCode + ", Full Response: " + response);
+            //Accept both 200, and 201 for backwards-compatibility reasons
+            if ((statusCode != HttpStatus.SC_CREATED) && (statusCode != HttpStatus.SC_OK)) {
+                log.info("Failed uploading file: " + localFilePath + "HTTP " + statusCode + ", Full Response: " + response);
+                result = false;
+            }
+
+            httpPut.completed();
+
+            return result;
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return resp;
-    }
-
-    public static boolean uploadFile(String url, String fileKey, String filePath) throws Exception
-    {
-        HttpClient mHttpClient = HttpClientBuilder.create().build();
-
-        HttpParams params = new BasicHttpParams();
-        params.setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-
-        try {
-
-            System.out.println("start upload file");
-
-            HttpPost httppost = new HttpPost(url);
-
-            MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-            multipartEntity.addPart(fileKey, new FileBody(new File(filePath)));
-            httppost.setEntity(multipartEntity);
-
-            httppost.setParams(params);
-
-            System.out.println("start...");
-
-            HttpResponse httpResponse = mHttpClient.execute(httppost);
-
-            String result = null;
-
-            int statusCode = httpResponse.getStatusLine().getStatusCode();
-
-            System.out.println("file upload statusCode >>> " + statusCode);
-
-            if(statusCode == HttpURLConnection.HTTP_OK)
-            {
-                result = EntityUtils.toString(httpResponse.getEntity());
-            }
-
-            System.out.println("file upload result >>> " + result);
-
-            if(result != null)
-            {
-                if(result.indexOf("error_response") >= 0)
-                {
-                    throw new Exception("File upload failed.");
-                }
-            }
-            else
-            {
-                throw new Exception("Cannot get connection response");
-            }
-
-            System.out.println("file uploaded");
-
-            return true;
-
-        } catch (Exception e) {
-            System.out.println("upload file exception");
-            e.printStackTrace();
+            log.info("Failed Uploding file: " + localFilePath + "Exception: " + e);
             throw e;
         }
     }
 
+    public void close() throws IOException {
+        if (httpClient != null) {
+            httpClient.close();
+        }
+    }
 
-
-    public static void main(String[] args) throws Exception {
-        final String UPLOAD_URL = "http://localhost";
-        HttpFileUploader uploader = new HttpFileUploader(UPLOAD_URL, "attachment_field", "/Users/pgajjar/Data/Movies/PK.mp4");
-        System.out.println(uploader.upload());
-
-        uploader.uploadFile(UPLOAD_URL, "attachment_field", "/Users/pgajjar/Data/Movies/PK.mp4");
+    public static void main(String[] args) throws IOException {
+        HttpFileUploader uploader = HttpFileUploader.newInstance();
+        System.out.println(uploader.upload("/Users/pgajjar/Data/Movies/PK.mp4", "pgajjar", "PK.mp4"));
+        uploader.close();
     }
 }

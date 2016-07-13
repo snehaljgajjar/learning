@@ -86,7 +86,7 @@ public class FtpFileUploader {
     public static void main(String[] args) {
         try {
             FtpFileUploader uploader = FtpFileUploader.newUploader("localhost", 21, "pgajjar", "Aarav_2011");
-            uploader.upload("/Users/pgajjar/Data/Movies/PK.mp4", "/tmp/PradipGajjarUploadTest.mp4");
+            uploader.upload("/Users/pgajjar/Data/Movies//**/PK.mp4", "/tmp/PradipGajjarUploadTest.mp4");
         } catch (IOException e) {
             e.printStackTrace();
         }
