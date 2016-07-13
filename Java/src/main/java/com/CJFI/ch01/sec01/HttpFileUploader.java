@@ -8,6 +8,7 @@ import org.apache.http.entity.FileEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.protocol.HTTP;
+import org.apache.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -19,7 +20,7 @@ import java.net.URI;
  * @since   : 7/13/16
  */
 public class HttpFileUploader {
-    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(HttpFileUploader.class.getName());
+    private static Logger log = org.apache.log4j.Logger.getLogger(HttpFileUploader.class.getName());
     private final CloseableHttpClient httpClient;
     public final static String HTTP_HOST_URL = "http://localhost/uploads/";
 
@@ -72,7 +73,7 @@ public class HttpFileUploader {
         try {
             boolean result = true;
 
-            if (!HttpFileUploaderUtil.mkdirRecursive(dirName)) {
+            if (!HttpFileUploaderUtil.mkdir(dirName)) {
                 log.info("Failed creating directory: " + dirName + " on " + HTTP_HOST_URL);
                 return false;
             }

@@ -6,17 +6,18 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.jackrabbit.webdav.client.methods.MkColMethod;
+import org.apache.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 
 /**
- * @author: pgajjar
- * @since: 7/13/16
+ * @author  : pgajjar
+ * @since   : 7/13/16
  */
 public final class HttpFileUploaderUtil {
-    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(HttpFileUploaderUtil.class.getName());
+    private static Logger log = org.apache.log4j.Logger.getLogger(HttpFileUploaderUtil.class.getName());
 
     public static boolean successfulResponse(@Nonnull final int responseCode) {
         // Accept both 200, and 201 for backwards-compatibility reasons
@@ -50,7 +51,7 @@ public final class HttpFileUploaderUtil {
         return true;
     }
 
-    public static boolean mkdirRecursive(@Nonnull final String dirName) throws IOException {
+    public static boolean mkdir(@Nonnull final String dirName) throws IOException {
         final  HttpClient httpClient = new HttpClient();
         final String[] dirs = dirName.split(File.separator);
         StringBuilder dirToCreate = new StringBuilder();
