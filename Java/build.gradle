@@ -144,6 +144,8 @@ dependencies {
     compile group: 'org.apache.tika', name: 'tika-core', version: '1.11'
     compile group: 'org.apache.tika', name: 'tika-parsers', version: '1.11'
 
+    // WebDAV API ()
+    compile group: 'org.apache.jackrabbit', name: 'jackrabbit-webdav', version: '2.5.2'
 
     /**
      ******************************************************************************

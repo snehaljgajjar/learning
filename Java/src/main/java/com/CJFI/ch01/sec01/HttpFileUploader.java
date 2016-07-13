@@ -22,7 +22,7 @@ import java.net.URI;
 public class HttpFileUploader {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(HttpFileUploader.class.getName());
     private final CloseableHttpClient httpClient;
-    private final static String HTTP_HOST_URL = "http://localhost/uploads/";
+    public final static String HTTP_HOST_URL = "http://localhost/uploads/";
 
     public static class HttpMkCol extends HttpEntityEnclosingRequestBase {
         public static final String METHOD_NAME = "MKCOL";
@@ -69,52 +69,11 @@ public class HttpFileUploader {
         return new HttpFileUploader();
     }
 
-    private boolean dirExists(@Nonnull final String dirName) throws IOException {
-        return false;
-//        HttpPropFind propFind = new HttpPropFind(HTTP_HOST_URL + dirName);
-//        HttpResponse response = httpClient.execute(propFind);
-//        int statusCode = response.getStatusLine().getStatusCode();
-//        propFind.completed();
-//        return statusCode == HttpStatus.SC_MULTI_STATUS;
-    }
-
-    /** Create the given directory via WebDAV, if needed, under given URL */
-    private boolean mkdir(@Nonnull final String dirName) throws IOException {
-        boolean result = true;
-        final String dirToCreate = HTTP_HOST_URL + dirName;
-        if (!dirExists(dirName)) {
-            HttpMkCol mkcol = new HttpMkCol(dirToCreate);
-            HttpResponse response = httpClient.execute(mkcol);
-            int statusCode = response.getStatusLine().getStatusCode();
-            if ((statusCode != HttpStatus.SC_CREATED) && (statusCode != HttpStatus.SC_OK)) {
-                log.info("Failed creating directory: " + dirName + "HTTP " + statusCode + ", Full Response: " + response);
-                result = false;
-            }
-            mkcol.completed();
-        } else {
-            log.info("Directory: " + dirToCreate + " already exists.");
-        }
-
-        return result;
-    }
-
-    private boolean mkdirRecursive(@Nonnull final String dirName) throws IOException {
-        final String[] dirs = dirName.split(File.separator);
-        StringBuilder dirToCreate = new StringBuilder();
-        for (String dir : dirs) {
-            dirToCreate.append(dir + File.separator);
-            if (!mkdir(dirToCreate.toString())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public boolean upload(String localFilePath, String dirName, String targetFileName) throws IOException {
         try {
             boolean result = true;
 
-            if (!mkdir(dirName)) {
+            if (!HttpFileUploaderUtil.mkdirRecursive(dirName)) {
                 log.info("Failed creating directory: " + dirName + " on " + HTTP_HOST_URL);
                 return false;
             }
@@ -152,7 +111,7 @@ public class HttpFileUploader {
 
     public static void main(String[] args) throws IOException {
         HttpFileUploader uploader = HttpFileUploader.newInstance();
-        System.out.println(uploader.upload("/Users/pgajjar/Data/Movies/PK.mp4", "pgajjar", "PK.mp4"));
+        System.out.println(uploader.upload("/Users/pgajjar/Data/Movies/PK.mp4", "pgajjar/example/test/firsttest/package/provider/vfcs/source/Components/files/", "PK.mp4"));
         uploader.close();
     }
 }
