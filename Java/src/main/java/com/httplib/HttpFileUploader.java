@@ -1,6 +1,6 @@
 package com.httplib;
 
-import com.httplib.util.HttpFileUploaderUtil;
+import com.httplib.util.HttpFileUploadUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpPut;
@@ -15,6 +15,7 @@ import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * @author  : pgajjar
@@ -70,11 +71,11 @@ public class HttpFileUploader {
         return new HttpFileUploader();
     }
 
-    public boolean upload(String localFilePath, String dirName, String targetFileName) throws IOException {
+    public boolean upload(String localFilePath, String dirName, String targetFileName) throws IOException, URISyntaxException {
         try {
             boolean result = true;
 
-            if (!HttpFileUploaderUtil.mkdir(dirName)) {
+            if (!HttpFileUploadUtil.mkdirRecursive(dirName)) {
                 log.info("Failed creating directory: " + dirName + " on " + HTTP_HOST_URL);
                 return false;
             }
@@ -90,7 +91,7 @@ public class HttpFileUploader {
             int statusCode = response.getStatusLine().getStatusCode();
             log.info("Received HTTP " + statusCode + ", Full Response: " + response);
 
-            if (!HttpFileUploaderUtil.successfulResponse(statusCode)) {
+            if (!HttpFileUploadUtil.successfulResponse(statusCode)) {
                 log.info("Failed uploading file: " + localFilePath + "HTTP " + statusCode + ", Full Response: " + response);
                 result = false;
             }
@@ -110,7 +111,7 @@ public class HttpFileUploader {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, URISyntaxException {
         HttpFileUploader uploader = HttpFileUploader.newInstance();
         System.out.println(uploader.upload("/Users/pgajjar/Data/Movies/PK.mp4", "pgajjar/example/test/firsttest/package/provider/vfcs/source/Components/files/", "PK.mp4"));
         uploader.close();
