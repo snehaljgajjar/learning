@@ -1,6 +1,5 @@
 package com.httplib.util;
 
-import com.httplib.HttpFileUploader;
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
@@ -28,7 +27,7 @@ public final class HttpFileUploaderUtil {
     }
 
     private static boolean dirExists(@Nonnull final  HttpClient httpClient, @Nonnull final String dirName) throws IOException {
-        HeadMethod headMethod = new HeadMethod(HttpFileUploader.HTTP_HOST_URL + dirName);
+        HeadMethod headMethod = new HeadMethod(HttpMethodUtil.HTTP_HOST_URL + dirName);
         try {
             headMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler(10, false));
             int responseCode = httpClient.executeMethod(headMethod);
@@ -40,7 +39,7 @@ public final class HttpFileUploaderUtil {
 
     private static boolean mkdir(@Nonnull final  HttpClient httpClient, @Nonnull final String dirName) throws IOException {
         if (!dirExists(httpClient, dirName)) {
-            MkColMethod mkColMethod = new MkColMethod(HttpFileUploader.HTTP_HOST_URL + dirName);
+            MkColMethod mkColMethod = new MkColMethod(HttpMethodUtil.HTTP_HOST_URL + dirName);
             try {
                 mkColMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler(10, false));
                 int responseCode = httpClient.executeMethod(mkColMethod);
@@ -49,7 +48,7 @@ public final class HttpFileUploaderUtil {
                 mkColMethod.releaseConnection();
             }
         } else {
-            log.info(HttpFileUploader.HTTP_HOST_URL + dirName + " exists.");
+            log.info(HttpMethodUtil.HTTP_HOST_URL + dirName + " exists.");
         }
         return true;
     }

@@ -1,66 +1,22 @@
 package com.httplib;
 
-import com.httplib.util.HttpFileUploadUtil;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.FileEntity;
+import com.httplib.util.HttpMethodUtil;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.protocol.HTTP;
 import org.apache.log4j.Logger;
 
 import javax.annotation.Nonnull;
-import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * @author  : pgajjar
- * @since   : 7/13/16
+ * @author : pgajjar
+ * @since : 7/13/16
  */
 public class HttpFileUploader {
     private static Logger log = org.apache.log4j.Logger.getLogger(HttpFileUploader.class.getName());
+    @Nonnull
     private final CloseableHttpClient httpClient;
-    public final static String HTTP_HOST_URL = "http://localhost/uploads/";
-
-    public static class HttpMkCol extends HttpEntityEnclosingRequestBase {
-        public static final String METHOD_NAME = "MKCOL";
-
-        public HttpMkCol(String url) {
-            this(URI.create(url));
-        }
-
-        public HttpMkCol(URI url) {
-            this.setURI(url);
-            this.setHeader("Content-Type", "text/xml" + "; charset=" + "UTF-8".toLowerCase());
-        }
-
-        @Override
-        public String getMethod() {
-            return METHOD_NAME;
-        }
-    }
-
-    public static class HttpPropFind extends HttpEntityEnclosingRequestBase {
-        public static final String METHOD_NAME = "PROPFIND";
-
-        public HttpPropFind(String url) {
-            this(URI.create(url));
-        }
-
-        public HttpPropFind(URI url) {
-            this.setURI(url);
-            this.setHeader("Content-Type", "text/xml" + "; charset=" + "UTF-8".toLowerCase());
-        }
-
-        @Override
-        public String getMethod() {
-            return METHOD_NAME;
-        }
-    }
 
     private HttpFileUploader() {
         httpClient = HttpClients.createDefault();
@@ -72,43 +28,17 @@ public class HttpFileUploader {
     }
 
     public boolean upload(String localFilePath, String dirName, String targetFileName) throws IOException, URISyntaxException {
-        try {
-            boolean result = true;
+        boolean result = HttpMethodUtil.put(httpClient, localFilePath, dirName, targetFileName);
 
-            if (!HttpFileUploadUtil.mkdirRecursive(dirName)) {
-                log.info("Failed creating directory: " + dirName + " on " + HTTP_HOST_URL);
-                return false;
-            }
-
-            final String targetHttpHostFilePath = HTTP_HOST_URL + dirName + File.separator + targetFileName;
-            log.info("Received an HTTP Put request for Local File: " + localFilePath + ", to Target: " + targetHttpHostFilePath);
-            final HttpPut httpPut = new HttpPut(targetHttpHostFilePath);
-            // add the 100 continue directive
-            httpPut.addHeader(HTTP.EXPECT_DIRECTIVE, HTTP.EXPECT_CONTINUE);
-            FileEntity fileEntity = new FileEntity(new File(localFilePath), ContentType.APPLICATION_OCTET_STREAM);
-            httpPut.setEntity(fileEntity);
-            HttpResponse response = httpClient.execute(httpPut);
-            int statusCode = response.getStatusLine().getStatusCode();
-            log.info("Received HTTP " + statusCode + ", Full Response: " + response);
-
-            if (!HttpFileUploadUtil.successfulResponse(statusCode)) {
-                log.info("Failed uploading file: " + localFilePath + "HTTP " + statusCode + ", Full Response: " + response);
-                result = false;
-            }
-
-            httpPut.completed();
-
-            return result;
-        } catch (IOException e) {
-            log.info("Failed Uploding file: " + localFilePath + "Exception: " + e);
-            throw e;
+        if (!result) {
+            log.info("Failed uploading file: " + localFilePath);
         }
+
+        return result;
     }
 
     public void close() throws IOException {
-        if (httpClient != null) {
-            httpClient.close();
-        }
+        httpClient.close();
     }
 
     public static void main(String[] args) throws IOException, URISyntaxException {
