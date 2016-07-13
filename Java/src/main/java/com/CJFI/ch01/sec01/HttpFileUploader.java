@@ -1,7 +1,6 @@
 package com.CJFI.ch01.sec01;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ContentType;
@@ -88,8 +87,8 @@ public class HttpFileUploader {
             HttpResponse response = httpClient.execute(httpPut);
             int statusCode = response.getStatusLine().getStatusCode();
             log.info("Received HTTP " + statusCode + ", Full Response: " + response);
-            //Accept both 200, and 201 for backwards-compatibility reasons
-            if ((statusCode != HttpStatus.SC_CREATED) && (statusCode != HttpStatus.SC_OK)) {
+
+            if (!HttpFileUploaderUtil.successfulResponse(statusCode)) {
                 log.info("Failed uploading file: " + localFilePath + "HTTP " + statusCode + ", Full Response: " + response);
                 result = false;
             }
