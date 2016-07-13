@@ -1,4 +1,4 @@
-package com.CJFI.ch01.sec01;
+package com.httplib;
 
 import org.apache.commons.httpclient.util.HttpURLConnection;
 import org.apache.http.HttpEntity;

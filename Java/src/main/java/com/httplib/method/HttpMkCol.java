@@ -1,4 +1,4 @@
-package com.CJFI.ch01.sec01;
+package com.httplib.method;
 
 import org.apache.http.annotation.NotThreadSafe;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;

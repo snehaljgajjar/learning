@@ -1,5 +1,7 @@
-package com.CJFI.ch01.sec01;
+package com.httplib.util;
 
+import com.httplib.HttpFileUploader;
+import com.httplib.method.HttpMkCol;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -17,6 +19,7 @@ import java.net.URISyntaxException;
 /**
  * @author  : pgajjar
  * @since   : 7/13/16
+ * * HttpComponents 4.5.1 version - old version working library
  */
 public final class HttpFileUploadUtil {
     private static Logger log = org.apache.log4j.Logger.getLogger(HttpFileUploadUtil.class.getName());

@@ -1,5 +1,6 @@
-package com.CJFI.ch01.sec01;
+package com.httplib.util;
 
+import com.httplib.HttpFileUploader;
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
@@ -15,6 +16,8 @@ import java.io.IOException;
 /**
  * @author  : pgajjar
  * @since   : 7/13/16
+ *
+ * HttpComponents 3.1 version - old version working library
  */
 public final class HttpFileUploaderUtil {
     private static Logger log = org.apache.log4j.Logger.getLogger(HttpFileUploaderUtil.class.getName());

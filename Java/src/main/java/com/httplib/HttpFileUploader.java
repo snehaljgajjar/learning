@@ -1,5 +1,6 @@
-package com.CJFI.ch01.sec01;
+package com.httplib;
 
+import com.httplib.util.HttpFileUploaderUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpPut;
