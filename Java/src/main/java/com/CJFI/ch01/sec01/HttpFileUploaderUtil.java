@@ -19,7 +19,7 @@ import java.io.IOException;
 public final class HttpFileUploaderUtil {
     private static Logger log = org.apache.log4j.Logger.getLogger(HttpFileUploaderUtil.class.getName());
 
-    public static boolean successfulResponse(@Nonnull final int responseCode) {
+    public static boolean successfulResponse(final int responseCode) {
         // Accept both 200, and 201 for backwards-compatibility reasons
         return responseCode == HttpStatus.SC_CREATED || responseCode == HttpStatus.SC_OK;
     }
