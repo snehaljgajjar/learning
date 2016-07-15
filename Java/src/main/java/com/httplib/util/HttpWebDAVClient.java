@@ -87,19 +87,28 @@ public final class HttpWebDAVClient {
     }
 
     public boolean put(@Nonnull final String localFilePath, @Nonnull final String targetDirName, @Nonnull final String targetFileName) throws IOException, URISyntaxException {
+        return put(new File(localFilePath), targetDirName, targetFileName);
+    }
+
+    public boolean put(@Nonnull final File localFile, @Nonnull final String targetDirName, @Nonnull final String targetFileName) throws IOException, URISyntaxException {
+        if (!localFile.exists()) {
+            log.info("Local File: " + localFile.getAbsolutePath() + " doesn't exist, can't proceed upload to " + httpHostWebDAVBaseUrl);
+            return false;
+        }
+
         if (!mkdirRecursive(targetDirName)) {
             log.info("Failed creating directory: " + targetDirName + " on " + httpHostWebDAVBaseUrl);
             return false;
         }
 
         final String targetHttpHostFilePath = remoteDirPath(targetDirName, targetFileName);
-        log.info("Received an HTTP Put request for Local File: " + localFilePath + ", to Target Path: " + targetHttpHostFilePath);
+        log.info("Received an HTTP Put request for Local File: " + localFile.getAbsolutePath() + ", to Target Path: " + targetHttpHostFilePath);
 
         if (!exists(remoteDirPathWithoutHostName(targetDirName, targetFileName))) {
             // add the 100 continue directive
             final HttpPut httpPut = new HttpPut(targetHttpHostFilePath);
             httpPut.addHeader(HTTP.EXPECT_DIRECTIVE, HTTP.EXPECT_CONTINUE);
-            FileEntity fileEntity = new FileEntity(new File(localFilePath), ContentType.APPLICATION_OCTET_STREAM);
+            FileEntity fileEntity = new FileEntity(localFile, ContentType.APPLICATION_OCTET_STREAM);
             httpPut.setEntity(fileEntity);
 
             return executeMethod(httpPut);
