@@ -1,8 +1,6 @@
 package com.httplib;
 
-import com.httplib.util.HttpMethodUtil;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import com.httplib.util.HttpWebDAVClient;
 import org.apache.log4j.Logger;
 
 import javax.annotation.Nonnull;
@@ -15,11 +13,12 @@ import java.net.URISyntaxException;
  */
 public class HttpFileUploader {
     private static Logger log = org.apache.log4j.Logger.getLogger(HttpFileUploader.class.getName());
-    @Nonnull
-    private final CloseableHttpClient httpClient;
+    private final static String HTTP_HOST_WEBDAV_BASE_URL = "http://localhost/uploads/";
+
+    @Nonnull private final HttpWebDAVClient httpWebDAVClient;
 
     private HttpFileUploader() {
-        httpClient = HttpClients.createDefault();
+        httpWebDAVClient = HttpWebDAVClient.newInstance(HTTP_HOST_WEBDAV_BASE_URL);
     }
 
     @Nonnull
@@ -28,7 +27,7 @@ public class HttpFileUploader {
     }
 
     public boolean upload(String localFilePath, String dirName, String targetFileName) throws IOException, URISyntaxException {
-        boolean result = HttpMethodUtil.put(httpClient, localFilePath, dirName, targetFileName);
+        boolean result = httpWebDAVClient.put(localFilePath, dirName, targetFileName);
 
         if (!result) {
             log.info("Failed uploading file: " + localFilePath);
@@ -38,7 +37,7 @@ public class HttpFileUploader {
     }
 
     public void close() throws IOException {
-        httpClient.close();
+        httpWebDAVClient.close();
     }
 
     public static void main(String[] args) throws IOException, URISyntaxException {

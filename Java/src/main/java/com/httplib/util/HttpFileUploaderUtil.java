@@ -20,6 +20,7 @@ import java.io.IOException;
  */
 public final class HttpFileUploaderUtil {
     private static Logger log = org.apache.log4j.Logger.getLogger(HttpFileUploaderUtil.class.getName());
+    private final static String HTTP_HOST_WEBDAV_BASE_URL = "http://localhost/uploads/";
 
     public static boolean successfulResponse(final int responseCode) {
         // Accept both 200, and 201 for backwards-compatibility reasons
@@ -27,7 +28,7 @@ public final class HttpFileUploaderUtil {
     }
 
     private static boolean dirExists(@Nonnull final  HttpClient httpClient, @Nonnull final String dirName) throws IOException {
-        HeadMethod headMethod = new HeadMethod(HttpMethodUtil.HTTP_HOST_URL + dirName);
+        HeadMethod headMethod = new HeadMethod(HTTP_HOST_WEBDAV_BASE_URL + dirName);
         try {
             headMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler(10, false));
             int responseCode = httpClient.executeMethod(headMethod);
@@ -39,7 +40,7 @@ public final class HttpFileUploaderUtil {
 
     private static boolean mkdir(@Nonnull final  HttpClient httpClient, @Nonnull final String dirName) throws IOException {
         if (!dirExists(httpClient, dirName)) {
-            MkColMethod mkColMethod = new MkColMethod(HttpMethodUtil.HTTP_HOST_URL + dirName);
+            MkColMethod mkColMethod = new MkColMethod(HTTP_HOST_WEBDAV_BASE_URL + dirName);
             try {
                 mkColMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler(10, false));
                 int responseCode = httpClient.executeMethod(mkColMethod);
@@ -48,7 +49,7 @@ public final class HttpFileUploaderUtil {
                 mkColMethod.releaseConnection();
             }
         } else {
-            log.info(HttpMethodUtil.HTTP_HOST_URL + dirName + " exists.");
+            log.info(HTTP_HOST_WEBDAV_BASE_URL + dirName + " exists.");
         }
         return true;
     }
