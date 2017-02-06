@@ -13,6 +13,10 @@ public class Test {
         y = b;
     }
 
+    public static Test getTest(Integer a, Integer b) {
+        return new Test(a, b);
+    }
+
     public int getX() {
         return x;
     }
@@ -20,6 +24,8 @@ public class Test {
     public int getY() {
         return y;
     }
+
+    private int sum() {return x + y; }
 
     public String toString() {
         return new String("[" + x + ", " + y + "]");
