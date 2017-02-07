@@ -10,7 +10,6 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -28,64 +27,36 @@ public class FileOrganizer {
     private @NonNull final File directory;
     private @NonNull final FileStore fileStore = FileStore.getHandle();
     private @Nullable FileStore duplicateFileStore;
-    private @NonNull final String reportFile;
-    private final boolean shouldAttemptRename;
+    private @NonNull String reportFile;
+    private boolean shouldAttemptRename;
 
     private static final CharMatcher ALPHA_NUMERIC_MATCHER = CharMatcher.inRange('a', 'z').or(CharMatcher.inRange('A', 'Z')).or(CharMatcher.inRange('0', '9')).or(CharMatcher.anyOf(". ")).precomputed();
 
     private String[] validFileExntensions;
 
-    @NonNull
-    private static FilenameFilter validFilesFilter(boolean shouldFilterFiles) {
-        if (shouldFilterFiles) {
-            return (dir, name) -> {
-                final String fileName = name.toLowerCase();
-                return fileName.endsWith(".txt") ||
-                        fileName.endsWith(".pdf") ||
-                        fileName.endsWith(".mov") ||
-                        fileName.endsWith(".mp4") ||
-                        fileName.endsWith(".mpeg") ||
-                        fileName.endsWith(".mpg") ||
-                        fileName.endsWith(".avi") ||
-                        fileName.endsWith(".m4v") ||
-                        fileName.endsWith(".jpg") ||
-                        fileName.endsWith(".png") ||
-                        fileName.endsWith(".jpeg") ||
-                        fileName.endsWith(".epub") ||
-                        fileName.endsWith(".csv") ||
-                        fileName.endsWith(".chm");
-            };
-        } else {
-            return null;
-        }
-    }
-
     public FileOrganizer(@NonNull final String directory) throws IOException {
-        this(directory, directory + File.separator + "report.csv");
-    }
-
-    public FileOrganizer(@NonNull final String directory, @NonNull final String reportFile) throws IOException {
-        this(directory, reportFile, false);
-    }
-
-    public FileOrganizer(@NonNull final String directory, @NonNull final String reportFile, boolean shouldAttemptRename) throws IOException {
         this.directory = new File(directory);
         if (isSymlink(this.directory)) {
             throw new IllegalArgumentException("Looks like " + directory + " is symlink, can't work on symlink for now.");
         }
-        this.reportFile = reportFile;
-        this.shouldAttemptRename = shouldAttemptRename;
 
         loadProperties();
+        this.reportFile = (this.reportFile != null) ? this.reportFile : directory + File.separator + "/report.csv";
     }
 
     private void loadProperties() throws IOException {
         // read properties
         final Properties properties = new Properties();
         properties.load(getClass().getClassLoader().getResourceAsStream("configuration.properties"));
-        String[] extensions = properties.getProperty("validfilerextensions").replaceAll("\\s+", "").split(",");
-        String[] uppercaseExts = Arrays.stream(extensions).map(p -> p.toUpperCase()).toArray(s -> new String[s]);
-        this.validFileExntensions = ArrayUtils.addAll(extensions, uppercaseExts);
+        final String validFilerExtensions = properties.getProperty("validfilerextensions");
+        if (validFilerExtensions != null) {
+            final String[] extensions = validFilerExtensions.replaceAll("\\s+", "").split(",");
+            final String[] uppercaseExts = Arrays.stream(extensions).map(p -> p.toUpperCase()).toArray(s -> new String[s]);
+            this.validFileExntensions = ArrayUtils.addAll(extensions, uppercaseExts);
+        }
+
+        this.reportFile = properties.getProperty("reportfile");
+        this.shouldAttemptRename = Boolean.valueOf(properties.getProperty("shouldattemptrename"));
     }
 
     public void process() throws IOException {
@@ -155,26 +126,12 @@ public class FileOrganizer {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length < 1 || args.length > 3) {
-            System.out.println("usage: FileOrganizer <Directory> [Report File (optional)] [shouldAttemptRename flag (true/false)]");
+        if (args.length != 1) {
+            System.out.println("usage: FileOrganizer <Directory>");
             System.exit(0);
         }
 
-        final FileOrganizer organizer;
-        switch (args.length) {
-            case 2:
-                organizer = new FileOrganizer(args[0], args[1]);
-                break;
-            case 3:
-                organizer = new FileOrganizer(args[0], args[1], Boolean.valueOf(args[2]));
-                break;
-            case 1:
-            default:
-                organizer = new FileOrganizer(args[0]);
-                break;
-        }
-        if (organizer != null) {
-            organizer.process();
-        }
+        final FileOrganizer organizer = new FileOrganizer(args[0]);
+        organizer.process();
     }
 }
