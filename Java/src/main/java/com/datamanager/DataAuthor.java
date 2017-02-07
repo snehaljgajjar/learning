@@ -23,7 +23,7 @@ public class DataAuthor <T> {
     }
 
     @NonNull
-    public DataAuthor getInstance(@NonNull final String filePath) throws IOException {
+    public static DataAuthor getInstance(@NonNull final String filePath) throws IOException {
         return new DataAuthor(filePath);
     }
 

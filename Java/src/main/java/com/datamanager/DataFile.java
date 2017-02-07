@@ -18,6 +18,7 @@ import java.util.StringJoiner;
  */
 public class DataFile implements Serializable {
     private static final long serialVersionUID = 1L;
+    private static final Tika tikaHandle = new Tika();
 
     private final File file;
     private @NonNull final HashCode md5;
@@ -26,7 +27,7 @@ public class DataFile implements Serializable {
     public DataFile(@NonNull final File file) throws IOException {
         this.file = file;
         this.md5 = Files.hash(file, Hashing.md5());
-        this.fileType = new Tika().detect(file);
+        this.fileType = tikaHandle.detect(file);
     }
 
     public DataFile(@NonNull final String filePath) throws IOException {
@@ -67,10 +68,12 @@ public class DataFile implements Serializable {
     @Override
     public String toString() {
         StringJoiner sb = new StringJoiner("");
-        sb.add(md5() + ", ");
+        // sb.add(md5() + ", ");
+        sb.add("\t[");
         sb.add(file.getAbsolutePath() + ", ");
         sb.add(fileType + ", ");
-        sb.add(Long.toString(file.length()));
+        sb.add(Long.toString(file.length() / 1024));
+        sb.add("]");
 
         return sb.toString();
     }
