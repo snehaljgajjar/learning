@@ -32,7 +32,7 @@ public class DataManagerReportAction<T> implements DataManagerAction {
             }
             writer.println();
         }
-        logger.info("Found " + fileStore.distinctFileCount() + " duplicate files.");
+        logger.info("Found " + fileStore.duplicateFileCount() + " duplicate files.");
     }
 
     @Override

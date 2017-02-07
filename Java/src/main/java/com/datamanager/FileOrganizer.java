@@ -4,6 +4,7 @@ import com.datamanager.actions.DataManagerAction;
 import com.datamanager.actions.DataManagerActionFactory;
 import org.apache.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,9 +19,10 @@ import static com.datamanager.actions.DataManagerActionFactory.Type;
  */
 public class FileOrganizer {
     private static final Logger logger = Logger.getLogger(FileOrganizer.class.getName());
-    private final File directory;
-    private final FileStore fileStore = FileStore.getHandle();
-    private final String reportFile;
+    private @NonNull final File directory;
+    private @NonNull final FileStore fileStore = FileStore.getHandle();
+    private @Nullable FileStore duplicateFileStore;
+    private @NonNull final String reportFile;
 
     public FileOrganizer(@NonNull final String directory) throws IOException {
         this(directory, directory + File.separator + "report.csv");
@@ -36,6 +38,10 @@ public class FileOrganizer {
 
     public void process() throws IOException {
         createFileStore(directory);
+        duplicateFileStore = FileStore.getDuplicateFileHandle();
+        if (duplicateFileStore == null) {
+            throw new IllegalStateException("FileStore is found in bad state, main FileStore is not yet constructed and trying to get the Dup FileStore.");
+        }
         logger.info("Total " + fileStore.fileCount() + " found, [Unique Files: " + fileStore.distinctFileCount() + "] files in directory: " + directory.getAbsolutePath());
         processFileStore();
     }
@@ -58,7 +64,7 @@ public class FileOrganizer {
 
     private void processFileStore() throws IOException {
         logger.info("Computing fileStore to find the duplicate files.");
-        DataManagerAction actionHandle = DataManagerActionFactory.getInstance(Type.WriteReport, FileStore.getDuplicateFileHandle(), this.reportFile);
+        DataManagerAction actionHandle = DataManagerActionFactory.getInstance(Type.WriteReport, duplicateFileStore, this.reportFile);
         if (actionHandle != null) {
             actionHandle.action();
             actionHandle.stop();

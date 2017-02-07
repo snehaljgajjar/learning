@@ -13,7 +13,7 @@ import java.io.ObjectOutputStream;
  * @author : pgajjar
  * @since  : 2/6/17
  */
-public class DataAuthor <T> {
+public class DataAuthor<T> {
     private final ObjectOutputStream writer;
     private final ObjectInputStream reader;
 

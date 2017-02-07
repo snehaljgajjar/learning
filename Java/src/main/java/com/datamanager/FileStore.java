@@ -12,12 +12,13 @@ import java.util.Set;
  * @author : pgajjar
  * @since  : 2/6/17
  */
-public class FileStore <T> {
+public class FileStore<T> {
     private final Multimap<String, T> fileStore = HashMultimap.create();
     private static FileStore handle;
     private static FileStore duplicateHandle;
 
-    private FileStore() {}
+    private FileStore() {
+    }
 
     @NonNull
     public synchronized static FileStore getHandle() {
@@ -40,9 +41,8 @@ public class FileStore <T> {
                     }
                 }
             }
-            return duplicateHandle;
         }
-        return null;
+        return duplicateHandle;
     }
 
     public boolean put(@NonNull final String key, @NonNull final T value) {
@@ -107,7 +107,11 @@ public class FileStore <T> {
     }
 
     public int distinctFileCount() {
-         return keySet().size();
+        return keySet().size();
+    }
+
+    public int duplicateFileCount() {
+        return fileCount() - distinctFileCount();
     }
 
     @NonNull
