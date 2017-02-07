@@ -2,6 +2,7 @@ package com.datamanager;
 
 import com.datamanager.actions.DataManagerAction;
 import com.datamanager.actions.DataManagerActionFactory;
+import com.google.common.base.CharMatcher;
 import org.apache.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -23,17 +24,25 @@ public class FileOrganizer {
     private @NonNull final FileStore fileStore = FileStore.getHandle();
     private @Nullable FileStore duplicateFileStore;
     private @NonNull final String reportFile;
+    private final boolean shouldAttemptRename;
+
+    private static final CharMatcher ALPHA_NUMERIC_MATCHER = CharMatcher.inRange('a', 'z').or(CharMatcher.inRange('A', 'Z')).or(CharMatcher.inRange('0', '9')).or(CharMatcher.anyOf(". ")).precomputed();
 
     public FileOrganizer(@NonNull final String directory) throws IOException {
         this(directory, directory + File.separator + "report.csv");
     }
 
     public FileOrganizer(@NonNull final String directory, @NonNull final String reportFile) throws IOException {
+        this(directory, reportFile, false);
+    }
+
+    public FileOrganizer(@NonNull final String directory, @NonNull final String reportFile, boolean shouldAttemptRename) throws IOException {
         this.directory = new File(directory);
         if (isSymlink(this.directory)) {
             throw new IllegalArgumentException("Looks like " + directory + " is symlink, can't work on symlink for now.");
         }
         this.reportFile = reportFile;
+        this.shouldAttemptRename = shouldAttemptRename;
     }
 
     public void process() throws IOException {
@@ -47,19 +56,33 @@ public class FileOrganizer {
     }
 
     private void createFileStore(@NonNull final File directory) throws IOException {
-        logger.info("Processing \t\"" + directory.getAbsolutePath() + "\"");
+        logger.info("Processing directory \t\"" + directory.getAbsolutePath() + "\"");
         if (!isSymlink(directory)) {
             for (final File fileEntry : directory.listFiles()) {
                 if (fileEntry.isDirectory()) {
                     createFileStore(fileEntry);
                 } else {
-                    final DataFile dataFile = new DataFile(fileEntry);
-                    fileStore.put(dataFile.md5(), dataFile);
+                    final DataFile dataFile = new DataFile(renameFileIfRequired(fileEntry));
+                    fileStore.put(dataFile.md5(), dataFile.toString());
                 }
             }
         } else {
             logger.info("Ignoring symlink: " + directory.getAbsolutePath() + " -> " + directory.getCanonicalPath());
         }
+    }
+
+    @NonNull
+    private File renameFileIfRequired(@NonNull final File file) {
+        if (shouldAttemptRename) {
+            final String fileName = file.getName();
+            if (!ALPHA_NUMERIC_MATCHER.matchesAllOf(fileName)) {
+                final String newFileName = ALPHA_NUMERIC_MATCHER.retainFrom(fileName);
+                final File newFile = new File(file.getParent(), newFileName);
+                file.renameTo(newFile);
+                return newFile;
+            }
+        }
+        return file;
     }
 
     private void processFileStore() throws IOException {
@@ -77,12 +100,26 @@ public class FileOrganizer {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length < 1 || args.length > 2) {
-            System.out.println("usage: FileOrganizer <Directory> [Report File (optional)]");
+        if (args.length < 1 || args.length > 3) {
+            System.out.println("usage: FileOrganizer <Directory> [Report File (optional)] [shouldAttemptRename flag (true/false)]");
             System.exit(0);
         }
 
-        final FileOrganizer organizer = (args.length == 2) ? new FileOrganizer(args[0], args[1]) : new FileOrganizer(args[0]);
-        organizer.process();
+        final FileOrganizer organizer;
+        switch (args.length) {
+            case 2:
+                organizer = new FileOrganizer(args[0], args[1]);
+                break;
+            case 3:
+                organizer = new FileOrganizer(args[0], args[1], Boolean.valueOf(args[2]));
+                break;
+            case 1:
+            default:
+                organizer = new FileOrganizer(args[0]);
+                break;
+        }
+        if (organizer != null) {
+            organizer.process();
+        }
     }
 }

@@ -25,9 +25,8 @@ public class DataManagerReportAction<T> implements DataManagerAction {
     @Override
     public void action() {
         for (String md5 : fileStore.keySet()) {
-            writer.println(md5);
+            // writer.println(md5);
             for (T dupFile : fileStore.get(md5)) {
-                // System.out.println("DUP (" + md5 + "): " + dupFile);
                 writer.println(dupFile);
             }
             writer.println();
