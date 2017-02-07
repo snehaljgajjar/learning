@@ -23,7 +23,7 @@ public class FileOrganizer {
     private final String reportFile;
 
     public FileOrganizer(@NonNull final String directory) throws IOException {
-        this(directory, directory + "/report.csv");
+        this(directory, directory + File.separator + "report.csv");
     }
 
     public FileOrganizer(@NonNull final String directory, @NonNull final String reportFile) throws IOException {

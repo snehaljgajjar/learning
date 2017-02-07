@@ -70,9 +70,9 @@ public class DataFile implements Serializable {
         StringJoiner sb = new StringJoiner("");
         // sb.add(md5() + ", ");
         sb.add("\t[");
-        sb.add(file.getAbsolutePath() + ", ");
+        sb.add("\"" + file.getAbsolutePath() + "\", ");
         sb.add(fileType + ", ");
-        sb.add(Long.toString(file.length() / 1024));
+        sb.add(Long.toString(file.length()) + " bytes");
         sb.add("]");
 
         return sb.toString();
