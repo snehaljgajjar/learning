@@ -65,7 +65,6 @@ public class FileOrganizer {
         if (duplicateFileStore == null) {
             throw new IllegalStateException("FileStore is found in bad state, main FileStore is not yet constructed and trying to get the Dup FileStore.");
         }
-        logger.info("Total " + fileStore.fileCount() + " found, [Unique Files: " + fileStore.distinctFileCount() + "] files in directory: " + directory.getAbsolutePath());
         processFileStore();
     }
 
@@ -92,6 +91,7 @@ public class FileOrganizer {
                 final DataFile dataFile = new DataFile(renameFileIfRequired(fileEntry));
                 fileStore.put(dataFile.md5(), dataFile.toString());
             }
+            logger.info("Total " + fileStore.fileCount() + ", [Unique Files: " + fileStore.distinctFileCount() + "] files found in directory: " + directory.getAbsolutePath());
         } else {
             logger.info("Ignoring symlink: " + directory.getAbsolutePath() + " -> " + directory.getCanonicalPath());
         }
