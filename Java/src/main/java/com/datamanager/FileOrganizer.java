@@ -29,6 +29,7 @@ public class FileOrganizer {
 
     private static final CharMatcher ALPHA_NUMERIC_MATCHER = CharMatcher.inRange('a', 'z').or(CharMatcher.inRange('A', 'Z')).or(CharMatcher.inRange('0', '9')).or(CharMatcher.anyOf(". ")).precomputed();
 
+    @NonNull
     private static FilenameFilter validFilesFilter() {
         return (dir, name) -> {
             final String fileName = name.toLowerCase();
