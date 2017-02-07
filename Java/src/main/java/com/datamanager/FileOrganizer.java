@@ -4,6 +4,7 @@ import com.datamanager.actions.DataManagerAction;
 import com.datamanager.actions.DataManagerActionFactory;
 import com.google.common.base.CharMatcher;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -13,6 +14,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Properties;
 
 import static com.datamanager.actions.DataManagerActionFactory.Type;
@@ -81,7 +83,9 @@ public class FileOrganizer {
         // read properties
         final Properties properties = new Properties();
         properties.load(getClass().getClassLoader().getResourceAsStream("configuration.properties"));
-        this.validFileExntensions = properties.getProperty("validfilerextensions").replaceAll("\\s+", "").split(",");
+        String[] extensions = properties.getProperty("validfilerextensions").replaceAll("\\s+", "").split(",");
+        String[] uppercaseExts = Arrays.stream(extensions).map(p -> p.toUpperCase()).toArray(s -> new String[s]);
+        this.validFileExntensions = ArrayUtils.addAll(extensions, uppercaseExts);
     }
 
     public void process() throws IOException {
