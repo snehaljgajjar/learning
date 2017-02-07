@@ -3,6 +3,7 @@ package com.datamanager;
 import com.datamanager.actions.DataManagerAction;
 import com.datamanager.actions.DataManagerActionFactory;
 import com.google.common.base.CharMatcher;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -12,6 +13,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Properties;
 
 import static com.datamanager.actions.DataManagerActionFactory.Type;
 
@@ -29,24 +31,31 @@ public class FileOrganizer {
 
     private static final CharMatcher ALPHA_NUMERIC_MATCHER = CharMatcher.inRange('a', 'z').or(CharMatcher.inRange('A', 'Z')).or(CharMatcher.inRange('0', '9')).or(CharMatcher.anyOf(". ")).precomputed();
 
-    private static FilenameFilter validFilesFilter() {
-        return (dir, name) -> {
-            final String fileName = name.toLowerCase();
-            return fileName.endsWith(".txt") ||
-                    fileName.endsWith(".pdf") ||
-                    fileName.endsWith(".mov") ||
-                    fileName.endsWith(".mp4") ||
-                    fileName.endsWith(".mpeg") ||
-                    fileName.endsWith(".mpg") ||
-                    fileName.endsWith(".avi") ||
-                    fileName.endsWith(".m4v") ||
-                    fileName.endsWith(".jpg") ||
-                    fileName.endsWith(".png") ||
-                    fileName.endsWith(".jpeg") ||
-                    fileName.endsWith(".epub") ||
-                    fileName.endsWith(".csv") ||
-                    fileName.endsWith(".chm");
-        };
+    private String[] validFileExntensions;
+
+    @NonNull
+    private static FilenameFilter validFilesFilter(boolean shouldFilterFiles) {
+        if (shouldFilterFiles) {
+            return (dir, name) -> {
+                final String fileName = name.toLowerCase();
+                return fileName.endsWith(".txt") ||
+                        fileName.endsWith(".pdf") ||
+                        fileName.endsWith(".mov") ||
+                        fileName.endsWith(".mp4") ||
+                        fileName.endsWith(".mpeg") ||
+                        fileName.endsWith(".mpg") ||
+                        fileName.endsWith(".avi") ||
+                        fileName.endsWith(".m4v") ||
+                        fileName.endsWith(".jpg") ||
+                        fileName.endsWith(".png") ||
+                        fileName.endsWith(".jpeg") ||
+                        fileName.endsWith(".epub") ||
+                        fileName.endsWith(".csv") ||
+                        fileName.endsWith(".chm");
+            };
+        } else {
+            return null;
+        }
     }
 
     public FileOrganizer(@NonNull final String directory) throws IOException {
@@ -64,6 +73,15 @@ public class FileOrganizer {
         }
         this.reportFile = reportFile;
         this.shouldAttemptRename = shouldAttemptRename;
+
+        loadProperties();
+    }
+
+    private void loadProperties() throws IOException {
+        // read properties
+        final Properties properties = new Properties();
+        properties.load(getClass().getClassLoader().getResourceAsStream("configuration.properties"));
+        this.validFileExntensions = properties.getProperty("validfilerextensions").replaceAll("\\s+", "").split(",");
     }
 
     public void process() throws IOException {
@@ -76,16 +94,28 @@ public class FileOrganizer {
         processFileStore();
     }
 
+//    private void createFileStore(@NonNull final File directory) throws IOException {
+//        logger.info("Processing directory \t\"" + directory.getAbsolutePath() + "\"");
+//        if (!isSymlink(directory)) {
+//            for (final File fileEntry : directory.listFiles(validFilesFilter(true))) {
+//                if (fileEntry.isDirectory()) {
+//                    createFileStore(fileEntry);
+//                } else {
+//                    final DataFile dataFile = new DataFile(renameFileIfRequired(fileEntry));
+//                    fileStore.put(dataFile.md5(), dataFile.toString());
+//                }
+//            }
+//        } else {
+//            logger.info("Ignoring symlink: " + directory.getAbsolutePath() + " -> " + directory.getCanonicalPath());
+//        }
+//    }
+
     private void createFileStore(@NonNull final File directory) throws IOException {
         logger.info("Processing directory \t\"" + directory.getAbsolutePath() + "\"");
         if (!isSymlink(directory)) {
-            for (final File fileEntry : directory.listFiles(validFilesFilter())) {
-                if (fileEntry.isDirectory()) {
-                    createFileStore(fileEntry);
-                } else {
-                    final DataFile dataFile = new DataFile(renameFileIfRequired(fileEntry));
-                    fileStore.put(dataFile.md5(), dataFile.toString());
-                }
+            for (final File fileEntry : FileUtils.listFiles(directory, validFileExntensions, true)) {
+                final DataFile dataFile = new DataFile(renameFileIfRequired(fileEntry));
+                fileStore.put(dataFile.md5(), dataFile.toString());
             }
         } else {
             logger.info("Ignoring symlink: " + directory.getAbsolutePath() + " -> " + directory.getCanonicalPath());
