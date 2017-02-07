@@ -30,6 +30,12 @@ public class DataFile implements Serializable {
         this.fileType = tikaHandle.detect(file);
     }
 
+    public DataFile(@NonNull final DataFile clone) {
+        this.file = clone.file;
+        this.md5 = clone.md5;
+        this.fileType = clone.fileType;
+    }
+
     public DataFile(@NonNull final String filePath) throws IOException {
         this(new File(filePath));
     }

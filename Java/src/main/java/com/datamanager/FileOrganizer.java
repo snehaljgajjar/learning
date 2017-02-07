@@ -48,7 +48,7 @@ public class FileOrganizer {
                     createFileStore(fileEntry);
                 } else {
                     final DataFile dataFile = new DataFile(fileEntry);
-                    fileStore.put(dataFile.md5(), dataFile.toString());
+                    fileStore.put(dataFile.md5(), dataFile);
                 }
             }
         } else {
