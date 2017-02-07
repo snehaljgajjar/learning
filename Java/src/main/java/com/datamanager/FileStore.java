@@ -3,8 +3,10 @@ package com.datamanager;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * @author : pgajjar
@@ -13,6 +15,7 @@ import java.util.Collection;
 public class FileStore <T> {
     private final Multimap<String, T> fileStore = HashMultimap.create();
     private static FileStore handle;
+    private static FileStore duplicateHandle;
 
     private FileStore() {}
 
@@ -21,8 +24,35 @@ public class FileStore <T> {
         return (handle == null) ? (handle = new FileStore()) : handle;
     }
 
+    @Nullable
+    public synchronized static FileStore getDuplicateFileHandle() {
+        if (handle != null) {
+            if (duplicateHandle == null) {
+                duplicateHandle = new FileStore();
+                Set<? extends String> keys = handle.fileStore.keySet();
+                for (String key : keys) {
+                    Collection values = handle.fileStore.get(key);
+                    if (values.size() > 1) {
+                        // definite duplicates.
+                        duplicateHandle.put(key, values);
+                    } else {
+                        // TODO: other ways of duplication goes here.
+                    }
+                }
+            }
+            return duplicateHandle;
+        }
+        return null;
+    }
+
     public boolean put(@NonNull final String key, @NonNull final T value) {
         return fileStore.put(key, value);
+    }
+
+    public void put(@NonNull final String key, @NonNull final Collection<T> values) {
+        for (T value : values) {
+            fileStore.put(key, value);
+        }
     }
 
     public boolean putAll(Multimap<? extends String, ? extends T> map) {

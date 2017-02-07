@@ -41,7 +41,7 @@ public class FileOrganizer {
     }
 
     private void createFileStore(@NonNull final File directory) throws IOException {
-        logger.info("Processing " + directory.getAbsolutePath() + " directory.");
+        logger.info("Processing \t\"" + directory.getAbsolutePath() + "\"");
         if (!isSymlink(directory)) {
             for (final File fileEntry : directory.listFiles()) {
                 if (fileEntry.isDirectory()) {
@@ -58,7 +58,7 @@ public class FileOrganizer {
 
     private void processFileStore() throws IOException {
         logger.info("Computing fileStore to find the duplicate files.");
-        DataManagerAction actionHandle = DataManagerActionFactory.getInstance(Type.WriteReport, fileStore, this.reportFile);
+        DataManagerAction actionHandle = DataManagerActionFactory.getInstance(Type.WriteReport, FileStore.getDuplicateFileHandle(), this.reportFile);
         if (actionHandle != null) {
             actionHandle.action();
             actionHandle.stop();
