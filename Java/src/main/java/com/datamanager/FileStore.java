@@ -129,8 +129,5 @@ public class FileStore<T extends DataFile> {
     @NonNull
     public Collection<T> filesOfType(@NonNull final String key) {
         return fileTypeStore.get(key).stream().map(k -> fileStore.get(k)).flatMap(Collection::stream).collect(Collectors.toList());
-        // final Collection<T> files = Lists.newArrayList();
-        //fileTypeStore.get(key).stream().map(k -> files.addAll(fileStore.get(k)));
-        //return files;
     }
 }
