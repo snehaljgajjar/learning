@@ -6,14 +6,17 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author : pgajjar
  * @since  : 2/6/17
  */
-public class FileStore<T> {
+public class FileStore<T extends DataFile> {
     private final Multimap<String, T> fileStore = HashMultimap.create();
+    private final Multimap<String, String> fileTypeStore = HashMultimap.create();
     private static FileStore handle;
     private static FileStore duplicateHandle;
 
@@ -46,17 +49,24 @@ public class FileStore<T> {
     }
 
     public boolean put(@NonNull final String key, @NonNull final T value) {
+        fileTypeStore.put(value.fileType(), key);
         return fileStore.put(key, value);
     }
 
     public void put(@NonNull final String key, @NonNull final Collection<T> values) {
         for (T value : values) {
-            fileStore.put(key, value);
+            put(key, value);
         }
     }
 
-    public boolean putAll(Multimap<? extends String, ? extends T> map) {
-        return fileStore.putAll(map);
+    public void putAll(Multimap<? extends String, ? extends T> map) {
+        for (Map.Entry<? extends String, ? extends T> entry : map.entries()) {
+            put(entry.getKey(), entry.getValue());
+        }
+    }
+
+    public boolean put(@NonNull final T data) {
+        return put(data.md5(), data);
     }
 
     @NonNull
@@ -74,14 +84,6 @@ public class FileStore<T> {
 
     public boolean keyPresent(@NonNull final String key) {
         return fileStore.containsKey(key);
-    }
-
-    public boolean put(@NonNull final T data) {
-        if (data instanceof DataFile) {
-            DataFile dataFile = (DataFile) data;
-            return put(dataFile.md5(), data);
-        }
-        throw new IllegalArgumentException("Only DataFile object is supported for now here.");
     }
 
     public boolean isExists(@NonNull final T data) {
@@ -117,5 +119,18 @@ public class FileStore<T> {
     @NonNull
     public Collection<String> keySet() {
         return fileStore.keySet();
+    }
+
+    @NonNull
+    public Collection<String> fileTypes() {
+        return fileTypeStore.keySet();
+    }
+
+    @NonNull
+    public Collection<T> filesOfType(@NonNull final String key) {
+        return fileTypeStore.get(key).stream().map(k -> fileStore.get(k)).flatMap(Collection::stream).collect(Collectors.toList());
+        // final Collection<T> files = Lists.newArrayList();
+        //fileTypeStore.get(key).stream().map(k -> files.addAll(fileStore.get(k)));
+        //return files;
     }
 }

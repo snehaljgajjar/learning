@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 public final class DataManagerActionFactory {
     public enum Type {
         WriteReport,
+        WriteGroupedReport,
     }
 
     private DataManagerActionFactory() {}
@@ -22,6 +23,8 @@ public final class DataManagerActionFactory {
         switch (dataActionType) {
             case WriteReport:
                 return new DataManagerReportAction(fileStore, reportFile);
+            case WriteGroupedReport:
+                return new DataManagerGroupedReportAction(fileStore, reportFile);
             default:
                 return null;
         }

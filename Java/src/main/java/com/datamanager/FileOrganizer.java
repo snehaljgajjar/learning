@@ -31,6 +31,7 @@ public class FileOrganizer {
     private @Nullable FileStore duplicateFileStore;
     private @NonNull String reportFile;
     private boolean shouldAttemptRename;
+    private Type dataManagerActionType;
 
     private static final CharMatcher ALPHA_NUMERIC_MATCHER = CharMatcher.inRange('a', 'z').or(CharMatcher.inRange('A', 'Z')).or(CharMatcher.inRange('0', '9')).or(CharMatcher.anyOf(". ")).precomputed();
 
@@ -65,6 +66,7 @@ public class FileOrganizer {
 
         this.reportFile = properties.getProperty("reportfile");
         this.shouldAttemptRename = Boolean.valueOf(properties.getProperty("shouldattemptrename"));
+        this.dataManagerActionType = Type.valueOf(properties.getProperty("datamanageractiontype"));
     }
 
     public void process() throws IOException {
@@ -101,7 +103,7 @@ public class FileOrganizer {
         if (!isSymlink(directory)) {
             for (final File fileEntry : FileUtils.listFiles(directory, validFileExtensions, true)) {
                 final DataFile dataFile = new DataFile(renameFileIfRequired(fileEntry));
-                fileStore.put(dataFile.md5(), dataFile.toString());
+                fileStore.put(dataFile.md5(), dataFile);
             }
         } else {
             logger.info("Ignoring symlink: " + directory.getAbsolutePath() + " -> " + directory.getCanonicalPath());
@@ -124,7 +126,7 @@ public class FileOrganizer {
 
     private void processFileStore() throws IOException {
         logger.info("Processing fileStore to find the duplicate files ...");
-        DataManagerAction actionHandle = DataManagerActionFactory.getInstance(Type.WriteReport, duplicateFileStore, this.reportFile);
+        DataManagerAction actionHandle = DataManagerActionFactory.getInstance(dataManagerActionType, duplicateFileStore, this.reportFile);
         if (actionHandle != null) {
             actionHandle.action();
             actionHandle.stop();

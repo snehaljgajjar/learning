@@ -11,24 +11,29 @@ import java.io.PrintWriter;
 
 /**
  * @author : pgajjar
- * @since  : 2/6/17
+ * @since  : 2/8/17
  */
-public class DataManagerReportAction<T extends DataFile> implements DataManagerAction {
-    private static final Logger logger = Logger.getLogger(DataManagerReportAction.class.getName());
+public class DataManagerGroupedReportAction<T extends DataFile> implements DataManagerAction {
+    private static final Logger logger = Logger.getLogger(DataManagerGroupedReportAction.class.getName());
     private final PrintWriter writer;
     private final FileStore<T> fileStore;
 
-    DataManagerReportAction(@NonNull final FileStore fileStore, @NonNull final String reportFile) throws FileNotFoundException {
+    DataManagerGroupedReportAction(@NonNull final FileStore fileStore, @NonNull final String reportFile) throws FileNotFoundException {
         this.fileStore = fileStore;
         this.writer = new PrintWriter(new File(reportFile));
     }
 
     @Override
     public void action() {
-        for (String md5 : fileStore.keySet()) {
-            // writer.println(md5);
-            for (T dupFile : fileStore.get(md5)) {
-                writer.println(dupFile);
+        for (String fileType : fileStore.fileTypes()) {
+            writer.println(fileType);
+            String lastMd5 = null;
+            for (T dupFile : fileStore.filesOfType(fileType)) {
+                if (!dupFile.md5().equals(lastMd5)) {
+                    writer.println();
+                    lastMd5 = dupFile.md5();
+                }
+                writer.println("\t" + dupFile);
             }
             writer.println();
         }

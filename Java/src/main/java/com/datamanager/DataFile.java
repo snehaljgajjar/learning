@@ -71,6 +71,11 @@ public class DataFile implements Serializable {
         return StringUtils.equals(this.fileType, otherFile.fileType);
     }
 
+    @NonNull
+    public String fileType() {
+        return fileType;
+    }
+
     @Override
     public String toString() {
         StringJoiner sb = new StringJoiner("");

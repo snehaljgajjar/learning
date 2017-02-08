@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 /**
  * @author : pgajjar
  * @since  : 2/6/17
+ * TODO: not finished.
  */
 public class DataAuthor<T> {
     private final ObjectOutputStream writer;

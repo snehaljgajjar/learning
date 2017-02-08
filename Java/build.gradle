@@ -184,3 +184,18 @@ dependencies {
     // Netflix Hystrix - https://github.com/Netflix/Hystrix
     compile group: 'com.netflix.hystrix', name: 'hystrix-core', version: '1.4.23'
 }
+
+tasks.withType(Test) {
+    scanForTestClasses = false
+    include "**/*Test.class" // whatever Ant pattern matches your test class files
+}
+
+apply plugin: 'application'
+
+mainClassName = 'com.datamanager.FileOrganizer'
+
+run {
+    if (project.hasProperty("appArgs")) {
+        args Eval.me(appArgs)
+    }
+}
