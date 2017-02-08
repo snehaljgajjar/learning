@@ -1,6 +1,7 @@
 package com.httplib.util;
 
 import com.httplib.method.HttpMkCol;
+import com.httplib.method.HttpMove;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpHead;
@@ -12,6 +13,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.protocol.HTTP;
 import org.apache.log4j.Logger;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -56,7 +58,7 @@ public final class HttpWebDAVClient {
     }
 
     @Nonnull
-    private static String remoteDirPathWithoutHostName(@Nonnull final String dirName, @Nonnull final String fileName) {
+    public static String remoteDirPathWithoutHostName(@Nonnull final String dirName, @Nonnull final String fileName) {
         return dirName + File.separator + fileName;
     }
 
@@ -73,11 +75,11 @@ public final class HttpWebDAVClient {
         }
     }
 
-    public boolean exists(@Nonnull final String dirName) {
+    private boolean exists(@Nonnull final String dirName) {
         return executeMethod(new HttpHead(remoteDirPath(dirName)));
     }
 
-    public boolean mkdir(@Nonnull final String dirName) throws URISyntaxException {
+    private boolean mkdir(@Nonnull final String dirName) throws URISyntaxException {
         if (!exists(dirName)) {
             return executeMethod(new HttpMkCol(remoteDirPath(dirName)));
         } else {
@@ -90,7 +92,7 @@ public final class HttpWebDAVClient {
         return put(new File(localFilePath), targetDirName, targetFileName);
     }
 
-    public boolean put(@Nonnull final File localFile, @Nonnull final String targetDirName, @Nonnull final String targetFileName) throws IOException, URISyntaxException {
+    private boolean put(@Nonnull final File localFile, @Nonnull final String targetDirName, @Nonnull final String targetFileName) throws IOException, URISyntaxException {
         if (!localFile.exists()) {
             log.info("Local File: " + localFile.getAbsolutePath() + " doesn't exist, can't proceed upload to " + httpHostWebDAVBaseUrl);
             return false;
@@ -118,7 +120,32 @@ public final class HttpWebDAVClient {
         }
     }
 
-    public boolean mkdirRecursive(@Nonnull final String dirName) throws IOException, URISyntaxException {
+    public boolean move(@NonNull String sourceDirName, @NonNull String sourceFileName, @NonNull String targetDirName, @NonNull String targetFileName) throws IOException, URISyntaxException {
+        final String sourceRemotePathWithoutHostName = remoteDirPathWithoutHostName(sourceDirName, sourceFileName);
+        final String targetRemotePathWithoutHostName = remoteDirPathWithoutHostName(targetDirName, targetFileName);
+
+        final String sourceHttpHostFilePath = remoteDirPath(sourceDirName, sourceFileName);
+        final String targetHttpHostFilePath = remoteDirPath(targetDirName, targetFileName);
+
+        if (!exists(sourceRemotePathWithoutHostName)) {
+            log.info("Source File: " + sourceRemotePathWithoutHostName + " doesn't exist, can't proceed move to " + targetRemotePathWithoutHostName);
+            return false;
+        }
+
+        if (!mkdirRecursive(targetDirName)) {
+            log.info("Failed creating directory: " + targetDirName + " on " + httpHostWebDAVBaseUrl);
+            return false;
+        }
+
+        if (!exists(remoteDirPathWithoutHostName(targetDirName, targetFileName))) {
+            return executeMethod(new HttpMove(sourceHttpHostFilePath, targetHttpHostFilePath));
+        } else {
+            log.info("Target file: " + targetHttpHostFilePath + " exists");
+            return true;
+        }
+    }
+
+    private boolean mkdirRecursive(@Nonnull final String dirName) throws IOException, URISyntaxException {
         final String[] dirs = dirName.split(File.separator);
         StringBuilder dirToCreate = new StringBuilder();
         for (String dir : dirs) {
