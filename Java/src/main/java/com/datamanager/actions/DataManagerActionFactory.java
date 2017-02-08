@@ -14,6 +14,7 @@ public final class DataManagerActionFactory {
     public enum Type {
         WriteReport,
         WriteGroupedReport,
+        WriteScript,
     }
 
     private DataManagerActionFactory() {}
@@ -25,6 +26,8 @@ public final class DataManagerActionFactory {
                 return new DataManagerReportAction(fileStore, reportFile);
             case WriteGroupedReport:
                 return new DataManagerGroupedReportAction(fileStore, reportFile);
+            case WriteScript:
+                return new DataManagerScriptAction(fileStore, reportFile);
             default:
                 return null;
         }

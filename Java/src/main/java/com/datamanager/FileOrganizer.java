@@ -74,14 +74,18 @@ public class FileOrganizer {
     public void process() throws IOException {
         for (File directory : this.directories) {
             createFileStore(directory);
+            logFileStoreStatus();
         }
-        logger.info("Total " + fileStore.fileCount() + ", [Unique Files: " + fileStore.distinctFileCount() + "] files found");
 
         duplicateFileStore = FileStore.getDuplicateFileHandle();
         if (duplicateFileStore == null) {
             throw new IllegalStateException("FileStore is found in bad state, main FileStore is not yet constructed and trying to get the Dup FileStore.");
         }
         processFileStore();
+    }
+
+    private void logFileStoreStatus() {
+        logger.info("FileStore Status: Total " + fileStore.fileCount() + ", [Unique Files: " + fileStore.distinctFileCount() + "] files found");
     }
 
 //    private void createFileStore(@NonNull final File directory) throws IOException {
@@ -120,6 +124,7 @@ public class FileOrganizer {
                 final String newFileName = ALPHA_NUMERIC_MATCHER.retainFrom(fileName);
                 final File newFile = new File(file.getParent(), newFileName);
                 file.renameTo(newFile);
+                logger.info("Renamed - " + file.getAbsolutePath() + " to " + newFile.getAbsolutePath());
                 return newFile;
             }
         }
