@@ -45,11 +45,13 @@ public class FileOrganizer {
         for (String dir : directories) {
             final File directory = new File(dir);
             if (isSymlink(directory)) {
-                logger.info("Looks like " + directory + " is symlink, can't work on symlink for now, ignoring it.");
+                logger.info("Looks like " + directory + " is symlink, can't work on symlink for now, IGNORING IT.");
             } else if (!directory.exists()) {
-                logger.info("Looks like " + directory + " doesn't exist, ignoring it.");
+                logger.info("Looks like " + directory + " doesn't exist, IGNORING IT.");
+            } else {
+                // valid directory to process
+                this.directories.add(directory);
             }
-            this.directories.add(directory);
         }
     }
 
