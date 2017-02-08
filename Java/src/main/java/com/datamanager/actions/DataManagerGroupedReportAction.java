@@ -8,6 +8,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Collection;
 
 /**
  * @author : pgajjar
@@ -25,7 +26,8 @@ public class DataManagerGroupedReportAction<T extends DataFile> implements DataM
 
     @Override
     public void action() {
-        for (String fileType : fileStore.fileTypes()) {
+        Collection<String> fileTypes = fileStore.fileTypes();
+        for (String fileType : fileTypes) {
             writer.println(fileType);
             String lastMd5 = null;
             for (T dupFile : fileStore.filesOfType(fileType)) {
@@ -37,7 +39,7 @@ public class DataManagerGroupedReportAction<T extends DataFile> implements DataM
             }
             writer.println();
         }
-        logger.info("Found " + fileStore.duplicateFileCount() + " duplicate files.");
+        logger.info("Found " + fileStore.duplicateFileCount() + " duplicate files of type(s): " + fileTypes);
     }
 
     @Override
