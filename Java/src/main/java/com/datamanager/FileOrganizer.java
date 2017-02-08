@@ -2,6 +2,7 @@ package com.datamanager;
 
 import com.datamanager.actions.DataManagerAction;
 import com.datamanager.actions.DataManagerActionFactory;
+import com.google.appengine.repackaged.com.google.common.collect.Lists;
 import com.google.common.base.CharMatcher;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import static com.datamanager.actions.DataManagerActionFactory.Type;
@@ -24,7 +26,7 @@ import static com.datamanager.actions.DataManagerActionFactory.Type;
  */
 public class FileOrganizer {
     private static final Logger logger = Logger.getLogger(FileOrganizer.class.getName());
-    private @NonNull final File directory;
+    private @NonNull final List<File> directories = Lists.newArrayList();
     private @NonNull final FileStore fileStore = FileStore.getHandle();
     private @Nullable FileStore duplicateFileStore;
     private @NonNull String reportFile;
@@ -32,16 +34,22 @@ public class FileOrganizer {
 
     private static final CharMatcher ALPHA_NUMERIC_MATCHER = CharMatcher.inRange('a', 'z').or(CharMatcher.inRange('A', 'Z')).or(CharMatcher.inRange('0', '9')).or(CharMatcher.anyOf(". ")).precomputed();
 
-    private String[] validFileExntensions;
+    private String[] validFileExtensions;
 
-    public FileOrganizer(@NonNull final String directory) throws IOException {
-        this.directory = new File(directory);
-        if (isSymlink(this.directory)) {
-            throw new IllegalArgumentException("Looks like " + directory + " is symlink, can't work on symlink for now.");
-        }
-
+    public FileOrganizer(@NonNull final String... directories) throws IOException {
         loadProperties();
-        this.reportFile = (this.reportFile != null) ? this.reportFile : directory + File.separator + "/report.csv";
+        // default report file - $HOME/report.csv
+        this.reportFile = (this.reportFile != null) ? this.reportFile : System.getenv("HOME") + File.separator + "/report.csv";
+
+        for (String dir : directories) {
+            final File directory = new File(dir);
+            if (isSymlink(directory)) {
+                logger.info("Looks like " + directory + " is symlink, can't work on symlink for now, ignoring it.");
+            } else if (!directory.exists()) {
+                logger.info("Looks like " + directory + " doesn't exist, ignoring it.");
+            }
+            this.directories.add(directory);
+        }
     }
 
     private void loadProperties() throws IOException {
@@ -52,7 +60,7 @@ public class FileOrganizer {
         if (validFilerExtensions != null) {
             final String[] extensions = validFilerExtensions.replaceAll("\\s+", "").split(",");
             final String[] uppercaseExts = Arrays.stream(extensions).map(p -> p.toUpperCase()).toArray(s -> new String[s]);
-            this.validFileExntensions = ArrayUtils.addAll(extensions, uppercaseExts);
+            this.validFileExtensions = ArrayUtils.addAll(extensions, uppercaseExts);
         }
 
         this.reportFile = properties.getProperty("reportfile");
@@ -60,7 +68,11 @@ public class FileOrganizer {
     }
 
     public void process() throws IOException {
-        createFileStore(directory);
+        for (File directory : this.directories) {
+            createFileStore(directory);
+        }
+        logger.info("Total " + fileStore.fileCount() + ", [Unique Files: " + fileStore.distinctFileCount() + "] files found");
+
         duplicateFileStore = FileStore.getDuplicateFileHandle();
         if (duplicateFileStore == null) {
             throw new IllegalStateException("FileStore is found in bad state, main FileStore is not yet constructed and trying to get the Dup FileStore.");
@@ -87,11 +99,10 @@ public class FileOrganizer {
     private void createFileStore(@NonNull final File directory) throws IOException {
         logger.info("Processing directory \t\"" + directory.getAbsolutePath() + "\"");
         if (!isSymlink(directory)) {
-            for (final File fileEntry : FileUtils.listFiles(directory, validFileExntensions, true)) {
+            for (final File fileEntry : FileUtils.listFiles(directory, validFileExtensions, true)) {
                 final DataFile dataFile = new DataFile(renameFileIfRequired(fileEntry));
                 fileStore.put(dataFile.md5(), dataFile.toString());
             }
-            logger.info("Total " + fileStore.fileCount() + ", [Unique Files: " + fileStore.distinctFileCount() + "] files found in directory: " + directory.getAbsolutePath());
         } else {
             logger.info("Ignoring symlink: " + directory.getAbsolutePath() + " -> " + directory.getCanonicalPath());
         }
@@ -112,7 +123,7 @@ public class FileOrganizer {
     }
 
     private void processFileStore() throws IOException {
-        logger.info("Computing fileStore to find the duplicate files.");
+        logger.info("Processing fileStore to find the duplicate files ...");
         DataManagerAction actionHandle = DataManagerActionFactory.getInstance(Type.WriteReport, duplicateFileStore, this.reportFile);
         if (actionHandle != null) {
             actionHandle.action();
@@ -126,12 +137,12 @@ public class FileOrganizer {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length != 1) {
-            System.out.println("usage: FileOrganizer <Directory>");
+        if (args.length < 1) {
+            System.out.println("usage: FileOrganizer <list of directories to process>");
             System.exit(0);
         }
 
-        final FileOrganizer organizer = new FileOrganizer(args[0]);
-        organizer.process();
+         final FileOrganizer organizer = new FileOrganizer(args);
+         organizer.process();
     }
 }
