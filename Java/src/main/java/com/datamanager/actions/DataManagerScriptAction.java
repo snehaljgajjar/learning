@@ -35,7 +35,8 @@ public class DataManagerScriptAction<T extends DataFile> implements DataManagerA
                     writer.println();
                     lastMd5 = dupFile.md5();
                 }
-                writer.println("\t" + dupFile.md5() + "\trm " + dupFile.filePath());
+
+                writer.println("\t" + dupFile.md5() + "\trm \"" + dupFile.filePath() + "\"");
             }
             writer.println();
         }

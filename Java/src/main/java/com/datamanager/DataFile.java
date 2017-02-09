@@ -55,6 +55,18 @@ public class DataFile implements Serializable {
     }
 
     @NonNull
+    public File fileHandle() {
+        return file;
+    }
+
+    /**
+     * Inclusive range
+     */
+    public boolean isFileSizeInRange(int start, int end) {
+        return file.length() >= start && file.length() <= end;
+    }
+
+    @NonNull
     public String filePath() {
         return file.getAbsolutePath();
     }

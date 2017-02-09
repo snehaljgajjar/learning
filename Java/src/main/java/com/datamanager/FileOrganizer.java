@@ -27,10 +27,11 @@ import static com.datamanager.actions.DataManagerActionFactory.Type;
 public class FileOrganizer {
     private static final Logger logger = Logger.getLogger(FileOrganizer.class.getName());
     private @NonNull final List<File> directories = Lists.newArrayList();
-    private @NonNull final FileStore fileStore = FileStore.getHandle();
+    private @NonNull final FileStore fileStore;
     private @Nullable FileStore duplicateFileStore;
     private @NonNull String reportFile;
     private boolean shouldAttemptRename;
+    private boolean deleteZeroSizeFiles;
     private Type dataManagerActionType;
 
     private static final CharMatcher ALPHA_NUMERIC_MATCHER = CharMatcher.inRange('a', 'z').or(CharMatcher.inRange('A', 'Z')).or(CharMatcher.inRange('0', '9')).or(CharMatcher.anyOf(". ")).precomputed();
@@ -39,6 +40,7 @@ public class FileOrganizer {
 
     public FileOrganizer(@NonNull final String... directories) throws IOException {
         loadProperties();
+        fileStore = FileStore.getHandle(deleteZeroSizeFiles);
         // default report file - $HOME/report.csv
         this.reportFile = (this.reportFile != null) ? this.reportFile : System.getenv("HOME") + File.separator + "/report.csv";
 
@@ -68,10 +70,11 @@ public class FileOrganizer {
 
         this.reportFile = properties.getProperty("reportfile");
         this.shouldAttemptRename = Boolean.valueOf(properties.getProperty("shouldattemptrename"));
+        this.deleteZeroSizeFiles = Boolean.valueOf(properties.getProperty("deleteZeroSizeFiles"));
         this.dataManagerActionType = Type.valueOf(properties.getProperty("datamanageractiontype"));
     }
 
-    public void process() throws IOException {
+    public void process() throws IOException, IllegalAccessException {
         for (File directory : this.directories) {
             createFileStore(directory);
             logFileStoreStatus();
@@ -104,7 +107,7 @@ public class FileOrganizer {
 //        }
 //    }
 
-    private void createFileStore(@NonNull final File directory) throws IOException {
+    private void createFileStore(@NonNull final File directory) throws IOException, IllegalAccessException {
         logger.info("Processing directory \t\"" + directory.getAbsolutePath() + "\"");
         if (!isSymlink(directory)) {
             for (final File fileEntry : FileUtils.listFiles(directory, validFileExtensions, true)) {
@@ -145,7 +148,7 @@ public class FileOrganizer {
         return Files.isSymbolicLink(Paths.get(directory.getAbsolutePath()));
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, IllegalAccessException {
         if (args.length < 1) {
             System.out.println("usage: FileOrganizer <list of directories to process>");
             System.exit(0);

@@ -2,6 +2,7 @@ package com.datamanager;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import org.apache.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -15,24 +16,36 @@ import java.util.stream.Collectors;
  * @since  : 2/6/17
  */
 public class FileStore<T extends DataFile> {
+    // need to see if this can be serialized, but first think - does it have to be???
+    private static final Logger logger = Logger.getLogger(FileStore.class.getName());
+
     private final Multimap<String, T> fileStore = HashMultimap.create();
     private final Multimap<String, String> fileTypeStore = HashMultimap.create();
     private static FileStore handle;
     private static FileStore duplicateHandle;
 
-    private FileStore() {
+    private final boolean deleteZeroSizeFiles;
+    private boolean isDuplicateStore = false;
+
+    private FileStore(boolean deleteZeroSizeFiles) {
+        this.deleteZeroSizeFiles = deleteZeroSizeFiles;
     }
 
     @NonNull
     public synchronized static FileStore getHandle() {
-        return (handle == null) ? (handle = new FileStore()) : handle;
+        return getHandle(false);
+    }
+
+    @NonNull
+    public synchronized static FileStore getHandle(boolean deleteZeroSizeFiles) {
+        return (handle == null) ? (handle = new FileStore(deleteZeroSizeFiles)) : handle;
     }
 
     @Nullable
-    public synchronized static FileStore getDuplicateFileHandle() {
+    public synchronized static FileStore getDuplicateFileHandle() throws IllegalAccessException {
         if (handle != null) {
             if (duplicateHandle == null) {
-                duplicateHandle = new FileStore();
+                duplicateHandle = new FileStore(false);
                 Set<? extends String> keys = handle.fileStore.keySet();
                 for (String key : keys) {
                     Collection values = handle.fileStore.get(key);
@@ -43,30 +56,49 @@ public class FileStore<T extends DataFile> {
                         // TODO: other ways of duplication goes here.
                     }
                 }
+
+                // from now on duplicate file store can't take new values so setting the flag to block new add
+                duplicateHandle.isDuplicateStore = true;
             }
         }
         return duplicateHandle;
     }
 
-    public boolean put(@NonNull final String key, @NonNull final T value) {
-        fileTypeStore.put(value.fileType(), key);
-        return fileStore.put(key, value);
+    private void deleteFile(@NonNull final T file) {
+        file.fileHandle().delete();
     }
 
-    public void put(@NonNull final String key, @NonNull final Collection<T> values) {
-        for (T value : values) {
+    /**
+     * Keep this as a single point of entry for all the put requests.
+     */
+    public boolean put(@NonNull final String key, @NonNull final T file) throws IllegalAccessException {
+        if (isDuplicateStore) {
+            throw new IllegalAccessException("Can't add element to Duplicate File Store.");
+        }
+        if (deleteZeroSizeFiles && file.isFileSizeInRange(0, 0) ) {
+            deleteFile(file);
+            logger.info("Delete request initiated for File: " + file.filePath());
+            return false;
+        } else {
+            fileTypeStore.put(file.fileType(), key);
+            return fileStore.put(key, file);
+        }
+    }
+
+    public void put(@NonNull final String key, @NonNull final Collection<T> files) throws IllegalAccessException {
+        for (T value : files) {
             put(key, value);
         }
     }
 
-    public void putAll(Multimap<? extends String, ? extends T> map) {
+    public void putAll(Multimap<? extends String, ? extends T> map) throws IllegalAccessException {
         for (Map.Entry<? extends String, ? extends T> entry : map.entries()) {
             put(entry.getKey(), entry.getValue());
         }
     }
 
-    public boolean put(@NonNull final T data) {
-        return put(data.md5(), data);
+    public boolean put(@NonNull final T file) throws IllegalAccessException {
+        return put(file.md5(), file);
     }
 
     @NonNull
