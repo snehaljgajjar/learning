@@ -68,7 +68,7 @@ public class FileOrganizer {
             this.validFileExtensions = ArrayUtils.addAll(extensions, uppercaseExts);
         }
 
-        this.reportFile = properties.getProperty("reportfile");
+        this.reportFile = properties.getProperty(FileOrganizer.isWindows()?"reportfileforwindows":"reportfile");
         this.shouldAttemptRename = Boolean.valueOf(properties.getProperty("shouldattemptrename"));
         this.deleteZeroSizeFiles = Boolean.valueOf(properties.getProperty("deleteZeroSizeFiles"));
         this.dataManagerActionType = Type.valueOf(properties.getProperty("datamanageractiontype"));
@@ -156,5 +156,9 @@ public class FileOrganizer {
 
          final FileOrganizer organizer = new FileOrganizer(args);
          organizer.process();
+    }
+
+    public static boolean isWindows() {
+        return System.getProperty("os.name").contains("Window");
     }
 }

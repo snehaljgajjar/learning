@@ -1,6 +1,7 @@
 package com.datamanager.actions;
 
 import com.datamanager.DataFile;
+import com.datamanager.FileOrganizer;
 import com.datamanager.FileStore;
 import org.apache.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -35,8 +36,8 @@ public class DataManagerScriptAction<T extends DataFile> implements DataManagerA
                     writer.println();
                     lastMd5 = dupFile.md5();
                 }
-
-                writer.println("\t" + dupFile.md5() + "\trm \"" + dupFile.filePath() + "\"");
+                final String deleteCmd = (FileOrganizer.isWindows())?"del" : "rm";
+                writer.println("\t" + dupFile.md5() + "\t"+ deleteCmd + " \"" + dupFile.filePath() + "\"");
             }
             writer.println();
         }
